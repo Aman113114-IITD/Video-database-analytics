@@ -1,6 +1,5 @@
 import torch
 import pandas as pd
-import matplotlib.pyplot as plt
 import cv2  # OpenCV library for working with videos
 
 # Load YOLOv5 model
@@ -9,6 +8,9 @@ model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
 # Open the video file using OpenCV
 video_path = 'video.mp4'  # Replace with your video file path
 cap = cv2.VideoCapture(video_path)
+
+# Open a log file for writing
+log_file = open('detection_log.txt', 'w')
 
 # Loop through each frame of the video
 frame_number = 0
@@ -24,10 +26,10 @@ while cap.isOpened():
     # Perform object detection on the current frame
     results = model(rgb_frame)
     
-    # Access and print detection results for the current frame
+    # Access and write detection results for the current frame to the log file
     detections = results.pandas().xyxy[0]
-    print(f"Frame {frame_number}:")
-    print(detections)
+    log_file.write(f"Frame {frame_number}:\n")
+    log_file.write(str(detections) + '\n')
     
     frame_number += 1
 
@@ -37,6 +39,9 @@ while cap.isOpened():
     cv2.imshow('YOLOv5 Object Detection', frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
+
+# Close the log file
+log_file.close()
 
 # Release the video capture and close the display window
 cap.release()

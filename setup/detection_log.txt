@@ -1,0 +1,766 @@
+Frame 0:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1016.240112  391.177643  1585.774292  803.745544    0.679009     14  bird
+Frame 1:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1026.475098  329.728088  1588.393188  755.615112    0.684227     14  bird
+Frame 2:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1012.233582  344.120514  1619.750732  736.663696    0.841297     14  bird
+Frame 3:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1011.336365  363.399841  1609.512085  706.000244    0.836492     14  bird
+Frame 4:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1037.083252  282.220428  1601.927612  711.099609    0.730162     14  bird
+Frame 5:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1098.575928  329.707428  1685.975952  739.516846     0.83805     14  bird
+Frame 6:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1120.987549  306.366577  1691.562378  731.287231    0.873014     14  bird
+Frame 7:
+          xmin        ymin        xmax        ymax  confidence  class  name
+0  1102.034546  271.076416  1685.26001  728.170715     0.83507     14  bird
+Frame 8:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1091.615112  316.469971  1695.348999  752.516602    0.883617     14  bird
+Frame 9:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  1141.98645  225.234238  1709.116699  777.410156    0.802648     14  bird
+Frame 10:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1146.014282  181.864883  1690.215942  920.885742    0.302293     14  bird
+Frame 11:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  1167.07373  251.491837  1761.935791  834.787903     0.79469     14  bird
+Frame 12:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1166.171021  365.350342  1790.922852  776.303528    0.866672     14  bird
+Frame 13:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1193.746216  362.915771  1814.633911  735.273804    0.858452     14  bird
+Frame 14:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1212.276123  376.505768  1824.694092  733.959656    0.885453     14  bird
+Frame 15:
+          xmin        ymin         xmax       ymax  confidence  class  name
+0  1202.887207  318.466766  1808.403931  729.11261    0.816748     14  bird
+Frame 16:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1213.557983  326.720947  1793.481201  778.943176    0.857848     14  bird
+Frame 17:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1156.147461  259.680908  1751.933472  808.161621     0.77954     14  bird
+Frame 18:
+          xmin        ymin        xmax        ymax  confidence  class  name
+0  1126.058472  294.521454  1723.24231  860.898743    0.786346     14  bird
+Frame 19:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1128.695312  452.028351  1685.403931  850.238037    0.817123     14  bird
+Frame 20:
+          xmin        ymin         xmax       ymax  confidence  class  name
+0  1133.530518  372.094299  1656.421143  859.91571    0.784575     14  bird
+Frame 21:
+          xmin       ymin         xmax        ymax  confidence  class  name
+0  1055.162598  425.61145  1639.092163  807.030762    0.858406     14  bird
+Frame 22:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1025.452148  415.823364  1619.016113  772.978149    0.869442     14  bird
+Frame 23:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  994.059082  302.524323  1592.410889  711.766052    0.865561     14  bird
+Frame 24:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1050.825562  237.431213  1569.941528  686.538818    0.855195     14  bird
+Frame 25:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1027.401245  210.682755  1549.898804  689.119263    0.774798     14  bird
+Frame 26:
+          xmin        ymin         xmax       ymax  confidence  class  name
+0  1007.220215  267.190582  1546.883789  710.01239    0.774299     14  bird
+Frame 27:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  924.729858  181.982224  1515.623291  710.922913    0.844262     14  bird
+Frame 28:
+        xmin        ymin         xmax        ymax  confidence  class  name
+0  976.83606  220.505859  1519.862183  719.484802    0.850187     14  bird
+Frame 29:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  930.703003  185.789795  1519.195923  669.678772    0.809009     14  bird
+Frame 30:
+         xmin        ymin       xmax        ymax  confidence  class  name
+0  966.634155  201.190659  1505.5271  793.111633    0.595916     14  bird
+Frame 31:
+         xmin       ymin         xmax        ymax  confidence  class  name
+0  984.354004  307.87674  1533.566528  786.861206    0.701025     14  bird
+Frame 32:
+        xmin        ymin         xmax        ymax  confidence  class  name
+0  971.92572  318.783447  1542.296265  790.630371    0.789558     14  bird
+Frame 33:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  987.161316  343.926208  1561.581787  726.041199    0.855765     14  bird
+Frame 34:
+        xmin        ymin         xmax        ymax  confidence  class  name
+0  999.09729  382.690155  1581.158203  722.549744    0.846633     14  bird
+Frame 35:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1015.270752  451.591492  1589.813965  708.101379    0.736876     14  bird
+Frame 36:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  985.962891  287.007233  1606.772949  715.522644    0.798918     14  bird
+Frame 37:
+         xmin      ymin         xmax        ymax  confidence  class  name
+0  981.735718  253.9552  1564.867065  710.479065    0.789837     14  bird
+Frame 38:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1030.349243  238.014786  1543.785645  705.472839    0.881445     14  bird
+Frame 39:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1019.438416  238.417389  1508.883545  716.572327    0.886927     14  bird
+Frame 40:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1000.423828  219.953766  1502.032471  821.164001    0.695806     14  bird
+Frame 41:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  949.830872  413.499939  1491.272217  825.969727    0.859609     14  bird
+Frame 42:
+         xmin        ymin        xmax        ymax  confidence  class  name
+0  875.347229  407.838318  1479.21875  792.869995    0.875841     14  bird
+Frame 43:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  884.435852  359.509827  1454.922363  751.859436    0.713517     14  bird
+Frame 44:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  818.381104  323.869263  1431.629883  714.513428    0.845095     14  bird
+Frame 45:
+         xmin        ymin        xmax        ymax  confidence  class  name
+0  798.984253  350.877991  1402.28418  739.369446    0.829447     14  bird
+Frame 46:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  770.105774  307.118042  1354.954712  782.059753    0.748632     14  bird
+Frame 47:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  766.062378  448.020844  1350.278687  725.417297    0.764383     14  bird
+Frame 48:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  799.949341  455.589935  1338.119385  737.441406    0.818628     14  bird
+Frame 49:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  745.520447  434.059204  1337.873779  776.574524    0.804628     14  bird
+Frame 50:
+         xmin        ymin        xmax        ymax  confidence  class  name
+0  781.315979  361.770355  1381.40271  751.369873    0.761971     14  bird
+Frame 51:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  747.315857  327.898285  1375.685059  724.900085    0.753522     14  bird
+Frame 52:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  742.459412  314.249634  1383.258179  740.475403    0.789553     14  bird
+Frame 53:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  814.292358  301.461273  1342.078857  753.904602    0.766773     14  bird
+Frame 54:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  842.749146  269.727905  1357.784302  832.430115    0.726092     14  bird
+Frame 55:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  857.727966  379.418701  1367.013306  833.185791    0.874106     14  bird
+Frame 56:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  870.367554  410.954071  1373.710327  765.036987    0.892927     14  bird
+Frame 57:
+         xmin       ymin         xmax        ymax  confidence  class  name
+0  889.604797  361.06778  1380.067627  755.143311    0.860499     14  bird
+Frame 58:
+         xmin        ymin         xmax       ymax  confidence  class  name
+0  872.933228  331.979309  1397.879028  717.68219    0.716667     14  bird
+Frame 59:
+         xmin        ymin         xmax       ymax  confidence  class  name
+0  801.561096  306.319061  1455.507935  710.61554    0.855991     14  bird
+Frame 60:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  855.497131  257.631958  1437.619629  724.447449    0.749834     14  bird
+Frame 61:
+         xmin       ymin         xmax        ymax  confidence  class  name
+0  877.084351  247.02301  1394.905518  728.888123    0.838637     14  bird
+Frame 62:
+         xmin        ymin        xmax        ymax  confidence  class  name
+0  839.659607  239.186005  1383.08606  726.858826    0.831048     14  bird
+Frame 63:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  827.880249  270.666077  1379.129517  819.075073    0.635398     14  bird
+Frame 64:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  807.392761  384.871796  1363.809204  815.625549    0.833898     14  bird
+Frame 65:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  764.591309  420.470032  1351.054321  818.807434    0.880614     14  bird
+Frame 66:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  762.393494  428.538483  1340.478516  811.765747    0.855557     14  bird
+Frame 67:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  729.348572  430.126678  1312.279663  767.985168    0.777762     14  bird
+Frame 68:
+         xmin      ymin       xmax        ymax  confidence  class  name
+0  785.692993  320.4646  1380.1427  770.156433    0.562291     14  bird
+Frame 69:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  806.552185  304.968933  1366.976685  749.627808    0.814446     14  bird
+Frame 70:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  814.437378  308.223083  1323.855103  767.448669     0.78347     14  bird
+Frame 71:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  801.124695  295.203094  1307.942871  845.262695    0.750192     14  bird
+Frame 72:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  758.958313  436.544891  1309.756592  795.030762    0.876341     14  bird
+Frame 73:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  747.705566  428.783142  1310.144897  816.175598    0.864656     14  bird
+Frame 74:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  715.391113  421.148346  1306.798462  768.983093    0.843512     14  bird
+Frame 75:
+         xmin       ymin         xmax        ymax  confidence  class  name
+0  709.332092  425.74118  1309.578369  766.642334    0.868186     14  bird
+Frame 76:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  705.161804  404.648987  1351.404785  776.088745    0.850546     14  bird
+Frame 77:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  709.052856  316.015808  1352.165771  782.540039    0.855747     14  bird
+Frame 78:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  748.797546  268.843231  1317.549316  796.705688    0.666919     14  bird
+Frame 79:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  761.492981  267.898468  1331.515869  812.756287    0.452687     14  bird
+Frame 80:
+        xmin        ymin        xmax        ymax  confidence  class  name
+0  815.01532  263.094635  1385.59314  775.927002    0.843442     14  bird
+Frame 81:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  831.301208  216.457809  1423.982056  768.232727    0.847239     14  bird
+Frame 82:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  853.010559  333.716797  1441.130981  838.303711    0.681476     14  bird
+Frame 83:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  855.740845  334.874268  1423.402344  837.400635    0.841693     14  bird
+Frame 84:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  834.069275  405.542908  1400.801025  827.322144    0.882299     14  bird
+Frame 85:
+        xmin        ymin         xmax        ymax  confidence  class  name
+0  792.75238  409.274994  1374.360718  827.104614     0.80337     14  bird
+Frame 86:
+         xmin        ymin        xmax        ymax  confidence  class  name
+0  768.823975  395.641479  1346.82312  724.829102    0.882211     14  bird
+Frame 87:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  820.104126  430.586914  1324.522705  827.320312    0.890726     14  bird
+Frame 88:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  753.300293  506.013336  1320.322754  783.673157    0.619351     14  bird
+Frame 89:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  777.690674  383.328766  1370.879517  767.663452    0.721579     14  bird
+Frame 90:
+         xmin       ymin         xmax        ymax  confidence  class  name
+0  755.393066  339.46225  1358.103882  782.992676    0.796007     14  bird
+Frame 91:
+         xmin        ymin       xmax        ymax  confidence  class  name
+0  736.934753  318.216705  1336.9375  734.321655    0.847978     14  bird
+Frame 92:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  755.959534  331.354126  1303.463501  756.213867    0.801878     14  bird
+Frame 93:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  718.740601  327.813782  1265.640137  807.496948    0.786145     14  bird
+Frame 94:
+         xmin        ymin         xmax         ymax  confidence  class  name
+0  226.348709  323.308441  1246.533813  1068.504272    0.718434     14  bird
+Frame 95:
+         xmin        ymin         xmax         ymax  confidence  class  name
+0  726.612793  468.259033  1240.175903   870.661560    0.576077     14  bird
+1  161.432053  456.854004  1248.513428  1059.436157    0.539604     14  bird
+Frame 96:
+        xmin        ymin         xmax        ymax  confidence  class  name
+0  736.34259  476.354462  1249.699463  892.244263    0.865779     14  bird
+Frame 97:
+         xmin        ymin        xmax        ymax  confidence  class  name
+0  770.550354  515.391113  1263.41748  845.993286    0.873257     14  bird
+Frame 98:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  762.040588  466.045929  1275.781494  836.808655    0.773071     14  bird
+Frame 99:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  734.817261  425.926239  1311.163696  810.650208    0.605708     14  bird
+Frame 100:
+         xmin      ymin         xmax        ymax  confidence  class  name
+0  727.351135  435.9104  1345.627563  831.577026    0.733157     14  bird
+Frame 101:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  750.786865  414.299103  1348.293091  849.807556    0.630676     14  bird
+Frame 102:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  780.707886  393.422913  1323.715576  865.369629    0.420338     14  bird
+Frame 103:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  780.973633  377.545258  1339.623047  848.795105    0.707391     14  bird
+Frame 104:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  814.054199  377.142517  1372.851196  854.588379    0.636744     14  bird
+Frame 105:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  811.440186  435.571014  1384.171387  831.322876     0.58671     14  bird
+Frame 106:
+         xmin        ymin         xmax         ymax  confidence  class  name
+0  197.515457  322.559692  1377.606934  1031.747925    0.260405     14  bird
+Frame 107:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  823.770447  434.669495  1377.096436  839.965942    0.479087     14  bird
+Frame 108:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  826.378479  423.584473  1377.029175  845.915466    0.694229     14  bird
+Frame 109:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  837.605896  444.744507  1467.602417  845.137573    0.711304     14  bird
+Frame 110:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  852.984192  411.724091  1456.899658  830.614014    0.793682     14  bird
+Frame 111:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  870.851685  408.405487  1449.043945  818.302979    0.793991     14  bird
+Frame 112:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  837.813416  379.083527  1424.735229  853.483582    0.579046     14  bird
+Frame 113:
+       xmin        ymin         xmax        ymax  confidence  class  name
+0  847.8172  345.986481  1374.946289  828.531067    0.546941     14  bird
+Frame 114:
+         xmin        ymin         xmax         ymax  confidence  class  name
+0  293.116364  340.393005  1342.436279  1017.375916    0.270859     14  bird
+Frame 115:
+         xmin        ymin         xmax         ymax  confidence  class  name
+0  796.319275  440.556427  1314.139160   855.824402    0.401630     14  bird
+1  291.858582  433.610077  1324.753174  1011.069031    0.280481     14  bird
+Frame 116:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  796.600342  459.643921  1283.472412  829.860901    0.509168     14  bird
+Frame 117:
+         xmin       ymin         xmax        ymax  confidence  class  name
+0  757.926086  462.33847  1380.891113  860.076294    0.849421     14  bird
+Frame 118:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  781.624939  418.026672  1350.406738  866.101135    0.643892     14  bird
+Frame 119:
+         xmin       ymin         xmax        ymax  confidence  class  name
+0  340.817596  381.36731  1261.044678  945.602966    0.624609     14  bird
+Frame 120:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  330.581482  285.655518  1240.554321  905.171509    0.457028     14  bird
+Frame 121:
+         xmin        ymin         xmax         ymax  confidence  class  name
+0  360.845062  332.612244  1230.651855  1007.282837    0.287498     14  bird
+Frame 122:
+         xmin        ymin         xmax         ymax  confidence  class  name
+0  345.578369  363.132843  1229.441284  1038.799438    0.360622     14  bird
+Frame 123:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  745.161682  413.550385  1361.598145  798.301208    0.802734     14  bird
+Frame 124:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  696.473938  348.615143  1356.212036  759.322449    0.724026     14  bird
+Frame 125:
+         xmin       ymin         xmax        ymax  confidence  class  name
+0  735.484375  323.37265  1379.980835  745.293335    0.549907     14  bird
+Frame 126:
+         xmin        ymin         xmax       ymax  confidence  class  name
+0  845.672241  243.840866  1344.927368  729.21637    0.796862     14  bird
+Frame 127:
+         xmin        ymin        xmax        ymax  confidence  class  name
+0  444.172333  346.748566  1350.09082  993.970276    0.643292     14  bird
+Frame 128:
+         xmin        ymin         xmax         ymax  confidence  class  name
+0  424.694305  300.469055  1359.836426  1073.286743    0.300631     14  bird
+Frame 129:
+Empty DataFrame
+Columns: [xmin, ymin, xmax, ymax, confidence, class, name]
+Index: []
+Frame 130:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  932.432739  353.237091  1393.399048  712.262939    0.776192     14  bird
+Frame 131:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  917.197815  303.478607  1455.569214  739.353333    0.673647     14  bird
+Frame 132:
+         xmin        ymin         xmax       ymax  confidence  class  name
+0  886.128662  321.463409  1450.795288  750.03479    0.566111     14  bird
+Frame 133:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  579.518311  258.688507  1379.044189  756.344788     0.29522     14  bird
+Frame 134:
+Empty DataFrame
+Columns: [xmin, ymin, xmax, ymax, confidence, class, name]
+Index: []
+Frame 135:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  816.463501  268.240601  1335.542236  670.959045    0.706313     14  bird
+Frame 136:
+         xmin        ymin         xmax         ymax  confidence  class  name
+0  832.689941  235.503540  1354.590454   640.545471    0.781014     14  bird
+1  458.166321  950.255676   553.993286  1079.759521    0.320391     75  vase
+Frame 137:
+         xmin        ymin         xmax         ymax  confidence  class  name
+0  840.674927  226.841446  1368.709106   660.536621    0.681835     14  bird
+1  461.993500  947.432068   555.546570  1080.000000    0.435911     75  vase
+Frame 138:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  828.756592  225.260284  1412.100952  635.911987    0.833365     14  bird
+Frame 139:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  852.248474  261.532288  1507.788208  619.703857    0.722896     14  bird
+Frame 140:
+         xmin        ymin         xmax         ymax  confidence  class  name
+0  867.303040  211.113297  1460.735352   658.129578    0.659865     14  bird
+1  465.899139  950.083191   565.355530  1080.000000    0.358373     75  vase
+Frame 141:
+        xmin        ymin         xmax        ymax  confidence  class  name
+0  834.42041  149.146454  1441.879761  639.206421    0.703448     14  bird
+Frame 142:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  834.096008  167.523666  1385.437744  658.509583    0.519361     14  bird
+Frame 143:
+        xmin        ymin         xmax        ymax  confidence  class  name
+0  855.22998  230.384354  1352.356201  663.362183    0.800027     14  bird
+Frame 144:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  867.141541  241.542267  1355.338989  663.595154    0.716834     14  bird
+Frame 145:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  871.907043  245.340744  1469.148193  681.113159    0.751386     14  bird
+Frame 146:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  826.730896  231.299881  1430.219727  681.462708    0.680435     14  bird
+Frame 147:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  816.109497  221.719162  1449.455322  687.795166    0.535685     14  bird
+Frame 148:
+         xmin        ymin         xmax         ymax  confidence  class  name
+0  855.028748  256.817902  1353.189331   677.818542    0.440859     14  bird
+1  585.827209  377.519714  1368.402466  1053.363037    0.281662     14  bird
+Frame 149:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  870.602844  257.021698  1368.769653  676.359924    0.748065     14  bird
+Frame 150:
+         xmin        ymin        xmax        ymax  confidence  class  name
+0  930.442566  247.487976  1459.53418  671.585815    0.863595     14  bird
+Frame 151:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  917.663086  264.658264  1577.166504  660.005676    0.780611     14  bird
+Frame 152:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  949.168213  187.349182  1559.544556  649.592834    0.702481     14  bird
+Frame 153:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  958.345276  135.713882  1545.302612  642.940979    0.688197     14  bird
+Frame 154:
+         xmin       ymin        xmax        ymax  confidence  class  name
+0  966.387695  78.131058  1521.55249  664.530518    0.253945     14  bird
+Frame 155:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  948.190796  166.145508  1537.096924  663.360229    0.444375     14  bird
+Frame 156:
+         xmin       ymin         xmax        ymax  confidence  class  name
+0  962.904114  160.39711  1538.938477  632.575806    0.717357     14  bird
+Frame 157:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  988.638062  176.123199  1525.094727  595.609314    0.811653     14  bird
+Frame 158:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  993.692871  141.478317  1567.778442  599.503784    0.870503     14  bird
+Frame 159:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1001.700684  182.371582  1605.316406  612.701172    0.894984     14  bird
+Frame 160:
+         xmin        ymin         xmax       ymax  confidence  class  name
+0  997.176819  147.322647  1584.365112  626.52301    0.885479     14  bird
+Frame 161:
+         xmin        ymin         xmax       ymax  confidence  class  name
+0  945.958069  177.639359  1517.357544  634.72168    0.732293     14  bird
+Frame 162:
+         xmin        ymin         xmax         ymax  confidence  class  name
+0  591.867737  150.919235  1531.271973  1023.976318    0.443102     14  bird
+Frame 163:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1005.314209  229.115524  1533.142822  681.242432    0.656658     14  bird
+Frame 164:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  945.495544  372.760284  1537.628296  680.902588    0.685167     14  bird
+Frame 165:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  956.705933  277.401398  1551.338135  678.647705    0.816726     14  bird
+Frame 166:
+        xmin        ymin         xmax        ymax  confidence  class  name
+0  943.99646  290.841125  1569.962036  709.058411    0.838129     14  bird
+Frame 167:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  935.894592  246.289764  1538.651733  752.094971    0.791676     14  bird
+Frame 168:
+         xmin       ymin         xmax        ymax  confidence  class  name
+0  933.308228  228.47435  1530.572266  836.857239    0.344326     14  bird
+Frame 169:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  978.262756  362.257812  1527.580566  747.915344    0.715566     14  bird
+Frame 170:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  934.420044  327.473541  1519.981934  763.261414    0.863711     14  bird
+Frame 171:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  925.421814  296.993042  1570.018921  731.377808    0.799995     14  bird
+Frame 172:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  939.792725  326.229492  1611.133301  744.887512    0.845273     14  bird
+Frame 173:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  970.202881  228.317932  1571.960938  754.976501    0.815954     14  bird
+Frame 174:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1041.085693  205.161209  1581.303711  772.055969    0.803503     14  bird
+Frame 175:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1036.460815  197.688217  1622.353394  817.203918    0.651559     14  bird
+Frame 176:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1094.295776  223.354477  1649.490723  802.708374    0.785705     14  bird
+Frame 177:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1052.977295  361.745361  1655.533447  770.988647    0.894867     14  bird
+Frame 178:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1030.825806  271.344269  1670.394287  709.770691    0.800677     14  bird
+Frame 179:
+          xmin       ymin         xmax        ymax  confidence  class  name
+0  1036.273071  311.22403  1686.307007  721.338135    0.739386     14  bird
+Frame 180:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  1038.12146  252.514938  1665.637939  709.281189    0.815482     14  bird
+Frame 181:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1062.726685  196.563538  1650.443604  649.988159    0.734689     14  bird
+Frame 182:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1018.546692  181.193848  1622.135498  637.693359    0.794329     14  bird
+Frame 183:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  1006.00708  178.238571  1590.721436  709.211182    0.810539     14  bird
+Frame 184:
+          xmin        ymin         xmax       ymax  confidence  class  name
+0  1039.321411  190.918869  1585.717896  778.20282    0.766133     14  bird
+Frame 185:
+        xmin       ymin        xmax        ymax  confidence  class  name
+0  991.47345  179.08046  1555.22583  764.861633     0.86335     14  bird
+Frame 186:
+         xmin        ymin       xmax       ymax  confidence  class  name
+0  952.472229  206.480164  1547.5625  752.29303    0.816784     14  bird
+Frame 187:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  928.837463  330.898285  1532.016479  738.207092    0.814655     14  bird
+Frame 188:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  929.146057  324.328064  1520.569946  689.286804    0.838135     14  bird
+Frame 189:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  914.294678  291.121399  1503.458862  700.355225    0.913284     14  bird
+Frame 190:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  924.210205  327.296997  1508.949585  644.582336    0.772328     14  bird
+Frame 191:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  899.314453  313.067963  1505.363525  685.753235    0.837564     14  bird
+Frame 192:
+         xmin        ymin         xmax       ymax  confidence  class  name
+0  986.676147  252.902908  1515.519165  652.87085    0.750816     14  bird
+Frame 193:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  919.967896  304.463043  1530.786255  678.034607    0.825823     14  bird
+Frame 194:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  908.975342  269.981415  1552.719727  674.815979    0.841349     14  bird
+Frame 195:
+         xmin        ymin         xmax       ymax  confidence  class  name
+0  927.603516  251.195251  1571.861938  670.44873    0.838401     14  bird
+Frame 196:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  943.816406  179.718399  1520.689941  648.028015    0.856402     14  bird
+Frame 197:
+        xmin        ymin         xmax        ymax  confidence  class  name
+0  1002.0354  146.620834  1524.855103  668.317688    0.838645     14  bird
+Frame 198:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  962.430969  121.147911  1524.956177  671.830444    0.742454     14  bird
+Frame 199:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1016.069519  118.074142  1529.170044  751.765686     0.70227     14  bird
+Frame 200:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1004.411316  171.812439  1519.257568  717.552246    0.734145     14  bird
+Frame 201:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1001.593323  223.137741  1520.277222  698.313049    0.883902     14  bird
+Frame 202:
+          xmin        ymin         xmax        ymax  confidence  class  name
+0  1010.151123  257.967224  1521.263794  684.204773    0.868592     14  bird
+Frame 203:
+          xmin        ymin       xmax        ymax  confidence  class  name
+0  1016.378601  198.528778  1541.8927  618.013367      0.8308     14  bird
+Frame 204:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  999.129639  205.911224  1548.476562  618.175232    0.866397     14  bird
+Frame 205:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  892.997192  179.956985  1528.254517  603.464172    0.875013     14  bird
+Frame 206:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  880.974792  146.743744  1471.418457  605.094238    0.821288     14  bird
+Frame 207:
+         xmin       ymin         xmax        ymax  confidence  class  name
+0  843.133667  141.97551  1463.694702  606.017639    0.831281     14  bird
+Frame 208:
+         xmin        ymin         xmax       ymax  confidence  class  name
+0  829.534607  136.058136  1408.650146  686.15094    0.684372     14  bird
+Frame 209:
+        xmin        ymin         xmax        ymax  confidence  class  name
+0  836.94751  165.307343  1393.915649  728.920593    0.651862     14  bird
+Frame 210:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  825.154907  252.407684  1381.525269  648.926941    0.899014     14  bird
+Frame 211:
+         xmin        ymin        xmax        ymax  confidence  class  name
+0  787.378296  216.665878  1425.83374  582.977661    0.836871     14  bird
+Frame 212:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  804.928711  144.840424  1447.648315  581.164856    0.792379     14  bird
+Frame 213:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  813.173767  116.359703  1421.265503  582.438599     0.82907     14  bird
+Frame 214:
+         xmin       ymin        xmax        ymax  confidence  class  name
+0  807.626831  99.639107  1417.02417  579.727295    0.786028     14  bird
+Frame 215:
+         xmin       ymin         xmax        ymax  confidence  class  name
+0  847.847046  90.593056  1391.314087  643.036438    0.767746     14  bird
+Frame 216:
+         xmin       ymin         xmax        ymax  confidence  class  name
+0  855.717041  51.366325  1401.821777  673.141724    0.541966     14  bird
+Frame 217:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  826.945862  174.488998  1398.192017  642.517334    0.918941     14  bird
+Frame 218:
+        xmin        ymin         xmax        ymax  confidence  class  name
+0  839.06781  246.912918  1413.483154  661.730103    0.869386     14  bird
+Frame 219:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  815.543518  253.484543  1413.935669  644.592285    0.836079     14  bird
+Frame 220:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  832.903809  220.597748  1408.749756  631.198975    0.907801     14  bird
+Frame 221:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  868.932312  208.443512  1458.587036  563.949158    0.754976     14  bird
+Frame 222:
+         xmin        ymin         xmax         ymax  confidence  class  name
+0  877.010803   92.741982  1445.351440   545.506042    0.835956     14  bird
+1  734.279907  915.769226   980.907776  1078.731567    0.265875     75  vase
+Frame 223:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  878.730103  100.007492  1462.104492  571.331116    0.801205     14  bird
+Frame 224:
+         xmin       ymin         xmax       ymax  confidence  class  name
+0  876.816833  72.991219  1453.336304  551.43573    0.705882     14  bird
+Frame 225:
+         xmin       ymin         xmax        ymax  confidence  class  name
+0  883.618164  70.821785  1409.898926  638.493347    0.806369     14  bird
+Frame 226:
+         xmin        ymin         xmax       ymax  confidence  class  name
+0  874.387268  203.020706  1418.377075  637.06604    0.904044     14  bird
+Frame 227:
+        xmin        ymin         xmax        ymax  confidence  class  name
+0  845.71106  252.589066  1431.618286  609.183167    0.904742     14  bird
+Frame 228:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  837.573364  229.111588  1421.322021  562.396667    0.874269     14  bird
+Frame 229:
+         xmin       ymin         xmax        ymax  confidence  class  name
+0  825.338196  210.88472  1401.503662  558.648499    0.880481     14  bird
+Frame 230:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  840.128418  146.440018  1385.960449  559.482788     0.85894     14  bird
+Frame 231:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  835.832153  123.943108  1379.005127  511.031616    0.768544     14  bird
+Frame 232:
+         xmin       ymin         xmax        ymax  confidence  class  name
+0  857.800293  238.59816  1439.626343  508.645111    0.757263     14  bird
+Frame 233:
+         xmin       ymin         xmax        ymax  confidence  class  name
+0  868.414001  91.119873  1469.330933  520.449829    0.815724     14  bird
+Frame 234:
+         xmin       ymin         xmax        ymax  confidence  class  name
+0  866.567017  58.036217  1412.567871  511.920319    0.794889     14  bird
+Frame 235:
+         xmin       ymin         xmax        ymax  confidence  class  name
+0  856.660583  67.071671  1421.616211  514.013245     0.80536     14  bird
+Frame 236:
+         xmin       ymin         xmax        ymax  confidence  class  name
+0  827.014404  37.709999  1411.235474  516.786133    0.808478     14  bird
+Frame 237:
+         xmin  ymin         xmax        ymax  confidence  class  name
+0  807.170837   0.0  1382.739258  502.433899    0.844102     14  bird
+Frame 238:
+         xmin       ymin         xmax        ymax  confidence  class  name
+0  801.628662  12.165367  1375.421997  516.895203    0.873043     14  bird
+Frame 239:
+         xmin       ymin         xmax        ymax  confidence  class  name
+0  829.368774  33.738693  1371.767212  629.970886    0.814744     14  bird
+Frame 240:
+         xmin        ymin         xmax        ymax  confidence  class  name
+0  763.699402  225.582733  1383.401001  611.779236    0.870463     14  bird
+Frame 241:
+         xmin        ymin        xmax       ymax  confidence  class  name
+0  822.260193  220.516357  1403.48999  555.43396     0.89009     14  bird
+Frame 242:
+         xmin       ymin         xmax        ymax  confidence  class  name
+0  805.005127  153.77803  1429.154175  523.322815    0.874006     14  bird
+Frame 243:
+         xmin       ymin         xmax        ymax  confidence  class  name
+0  858.067383  55.214207  1478.756104  432.052307    0.778986     14  bird
+Frame 244:
+         xmin      ymin        xmax        ymax  confidence  class  name
+0  901.517944  8.789509  1508.36792  378.542267    0.838115     14  bird
+Frame 245:
+         xmin      ymin         xmax       ymax  confidence  class  name
+0  957.060608  0.706993  1559.488403  315.76593    0.804219     14  bird
+Frame 246:
+          xmin  ymin         xmax        ymax  confidence  class  name
+0  1127.746948   0.0  1519.496704  190.662918    0.408312     14  bird
+Frame 247:
+Empty DataFrame
+Columns: [xmin, ymin, xmax, ymax, confidence, class, name]
+Index: []
+Frame 248:
+Empty DataFrame
+Columns: [xmin, ymin, xmax, ymax, confidence, class, name]
+Index: []
+Frame 249:
+Empty DataFrame
+Columns: [xmin, ymin, xmax, ymax, confidence, class, name]
+Index: []
+Frame 250:
+Empty DataFrame
+Columns: [xmin, ymin, xmax, ymax, confidence, class, name]
+Index: []

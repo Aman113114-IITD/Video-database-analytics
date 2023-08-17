@@ -12,7 +12,6 @@ def comparator(model1, model2, epsilon, epsilon2, image):
     result2 = model2_appl(image)
     detections1 = result1.pandas().xyxy[0]
     detections2 = result2.pandas().xyxy[0]
-    
     num_objects1 = len(detections1)
     num_objects2 = len(detections2)
     
@@ -52,11 +51,11 @@ def comparator(model1, model2, epsilon, epsilon2, image):
         return True
 
 # Example usage
-image_path = 'sample.jpg'  # Replace with the path to your image
+image_path = 'dogcat.jpeg'  # Replace with the path to your image
 model1_name = 'yolov5s'
 model2_name = 'yolov5m'
 epsilon = 0.1
-epsilon2 = 5.0
+epsilon2 = 50.0
 
 result = comparator(model1_name, model2_name, epsilon, epsilon2, image_path)
 if result:

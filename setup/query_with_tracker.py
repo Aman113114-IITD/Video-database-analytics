@@ -14,9 +14,10 @@ from collections import deque
 DISTANCE_THRESHOLD_BBOX: float = 0.7
 DISTANCE_THRESHOLD_CENTROID: int = 30
 MAX_DISTANCE: int = 10000
-HISTOGRAM_THRESHOLD = 0.97
+HISTOGRAM_THRESHOLD = 0.98
 
 
+## YOLO CLASS
 class YOLO:
     def __init__(self, model_name: str, device: Optional[str] = None):
         if device is not None and "cuda" in device and not torch.cuda.is_available():
@@ -45,11 +46,6 @@ class YOLO:
             self.model.classes = classes
         detections = self.model(img, size=image_size)
         return detections
-
-
-
-
-
 
 
 
@@ -99,15 +95,12 @@ def yolo_detections_to_norfair_detections(
     return norfair_detections
 
 
-# start time of program
-start_time = time.time()
-
-
+##parser arguements
 
 parser = argparse.ArgumentParser(description="Track objects in a video.")
 parser.add_argument("files", type=str, nargs="+", help="Video files to process")
 parser.add_argument(
-    "--model-name", type=str, default="yolov5s", help="YOLOv5 model name"
+    "--model-name", type=str, default="yolov5m", help="YOLOv5 model name"
 )
 parser.add_argument(
     "--img-size", type=int, default="720", help="YOLOv5 inference size (pixels)"
@@ -140,40 +133,34 @@ args = parser.parse_args()
 
 
 
-model = YOLO(args.model_name, device=args.device)
-
-
-
 # Function to answer query for finding truck in a given video
-def istruck(start,end,chunk_size,step_size,object,threshold,argum) :
-
+def isObject(start,end,chunk_size,step_size,object,argum) :
+    
+    # detecting the model
+    model = YOLO(args.model_name, device=args.device)
     # final answer
     ans=[]
 
-    for input_video_path in argum.files:
-        
 
+    for input_video_path in argum.files:
         distance_function = "iou" if argum.track_points == "bbox" else "euclidean"
         distance_threshold = (
             DISTANCE_THRESHOLD_BBOX
             if argum.track_points == "bbox"
             else DISTANCE_THRESHOLD_CENTROID
         )
-
         tracker = Tracker(
             distance_function=distance_function,
             distance_threshold=distance_threshold,
         )
 
-
         # Open the Video Capture
         cap = cv2.VideoCapture(input_video_path)
         fps = int(cap.get(5))
-
         if not cap.isOpened():
             print("Error opening video file.")
             return
-        
+
         # indices range to be processed based on starting and ending time passed in function
         start_frame = fps*start
         end_frame = fps*end
@@ -200,9 +187,12 @@ def istruck(start,end,chunk_size,step_size,object,threshold,argum) :
             # Calculate the histogram of the current frame
             hist = cv2.calcHist([frame], [0], None, [256], [0, 256])
             hist = hist / hist.sum()  # Normalize the histogram
-            objects=[]
-            if prev_hist is None or cv2.compareHist(hist, prev_hist, cv2.HISTCMP_INTERSECT) < HISTOGRAM_THRESHOLD:
 
+            objects=[]
+
+            if prev_hist is None or cv2.compareHist(hist, prev_hist, cv2.HISTCMP_INTERSECT) < HISTOGRAM_THRESHOLD:
+                #the frame is being taken
+                print("The frame is taken !!")
                 # Perform object detection on the frame
                 results = model(
                     frame,
@@ -218,31 +208,23 @@ def istruck(start,end,chunk_size,step_size,object,threshold,argum) :
                 )
                 # print(detections)
                 tracked_objects = tracker.update(detections=detections)
-                prev_hist = hist
 
                 for obj in tracked_objects:
                     if (obj.label==object) :
                         objects.append(obj.id)
+
+                prev_hist = hist
                                 
             else:
-                print("Frame is not taken")
-                # detections = results.pandas().xyxy[0]
-                # confidence = 0
-                    
-            # for _,objects in detections.iterrows() :
-            #     if (objects['name']==object) :
-            #         confidence=max(confidence,objects['confidence'])
-            
-            # confidence that object is present in frame
+                print("The frame is not taken !!")
+
+
             output.append(objects)
 
             frame_count += 1
 
             if (len(objects)>0) :
                 valid_frames+=1
-
-            # if (confidence>=threshold) :
-            #     valid_frames+=1
 
             if (frame_count == chunk_size*fps) :
                 if (valid_frames>0) :
@@ -260,10 +242,13 @@ def istruck(start,end,chunk_size,step_size,object,threshold,argum) :
                 
 
         cap.release()
+
     return ans
         
+# start time of program
+start_time = time.time()
 
-print(istruck(5,30,5,1,2,0.8,args))
+print(isObject(5,30,5,1,2,args))
 
 end_time = time.time()
 elapsed_time = end_time - start_time

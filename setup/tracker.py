@@ -86,6 +86,7 @@ def yolo_detections_to_norfair_detections(
     return norfair_detections
 
 
+
 parser = argparse.ArgumentParser(description="Track objects in a video.")
 parser.add_argument("files", type=str, nargs="+", help="Video files to process")
 parser.add_argument(
@@ -139,7 +140,12 @@ for input_path in args.files:
         distance_threshold=distance_threshold,
     )
 
+    total_tracking_time = 0
+
+    total_model_time = 0
+
     for frame in video:
+        curr_time1 = time.time()
         yolo_detections = model(
             frame,
             conf_threshold=args.conf_threshold,
@@ -147,19 +153,29 @@ for input_path in args.files:
             image_size=args.img_size,
             classes=args.classes,
         )
+        # print(yolo_detections)
+        curr_time2 = time.time()
+        total_model_time += (curr_time2-curr_time1)
         detections = yolo_detections_to_norfair_detections(
             yolo_detections, track_points=args.track_points
         )
+        # print(detections)
         tracked_objects = tracker.update(detections=detections)
-        print(tracked_objects)
+        # print(tracked_objects)
+        for obj in tracked_objects:
+            print(f"Tracked Object ID: {obj.id}, Class: {obj.label}")
+        curr_time3 = time.time()
+        total_tracking_time += (curr_time3-curr_time2)
         # if args.track_points == "centroid":
             # norfair.draw_points(frame, detections)
             # norfair.draw_tracked_objects(frame, tracked_objects)
         # elif args.track_points == "bbox":
             # norfair.draw_boxes(frame, detections)
             # norfair.draw_tracked_boxes(frame, tracked_objects)
-        video.write(frame)
+        # video.write(frame)
         
 end_time = time.time()
 
+print(f"Total time taken by model is {total_model_time}")
+print(f"Total time taken by tracking is {total_tracking_time}")
 print(f"Total time taken is {end_time-curr_time} seconds")

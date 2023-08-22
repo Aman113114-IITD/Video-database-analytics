@@ -146,7 +146,7 @@ for input_path in args.files:
     total_model_time = 0
 
     # Initialize variables to store the previous frame and its histogram
-    prev_frame = None
+    # prev_frame = None
     prev_hist = None
     threshold = 0.8
 
@@ -187,12 +187,12 @@ for input_path in args.files:
                 # norfair.draw_boxes(frame, detections)
                 # norfair.draw_tracked_boxes(frame, tracked_objects)
             # video.write(frame)
+            prev_hist = hist
         else:
             print("Frame is not taken")
 
         # Update the previous frame and its histogram
-        prev_frame = frame.copy()
-        prev_hist = hist
+        # prev_frame = frame.copy()
         
 end_time = time.time()
 

@@ -5,6 +5,7 @@ import torch
 import norfair
 from norfair import Detection, Paths, Tracker, Video
 import time
+import cv2
 
 DISTANCE_THRESHOLD_BBOX: float = 0.7
 DISTANCE_THRESHOLD_CENTROID: int = 30
@@ -144,35 +145,54 @@ for input_path in args.files:
 
     total_model_time = 0
 
+    # Initialize variables to store the previous frame and its histogram
+    prev_frame = None
+    prev_hist = None
+    threshold = 0.8
+
     for frame in video:
-        curr_time1 = time.time()
-        yolo_detections = model(
-            frame,
-            conf_threshold=args.conf_threshold,
-            iou_threshold=args.iou_threshold,
-            image_size=args.img_size,
-            classes=args.classes,
-        )
-        # print(yolo_detections)
-        curr_time2 = time.time()
-        total_model_time += (curr_time2-curr_time1)
-        detections = yolo_detections_to_norfair_detections(
-            yolo_detections, track_points=args.track_points
-        )
-        # print(detections)
-        tracked_objects = tracker.update(detections=detections)
-        # print(tracked_objects)
-        for obj in tracked_objects:
-            print(f"Tracked Object ID: {obj.id}, Class: {obj.label}")
-        curr_time3 = time.time()
-        total_tracking_time += (curr_time3-curr_time2)
-        # if args.track_points == "centroid":
-            # norfair.draw_points(frame, detections)
-            # norfair.draw_tracked_objects(frame, tracked_objects)
-        # elif args.track_points == "bbox":
-            # norfair.draw_boxes(frame, detections)
-            # norfair.draw_tracked_boxes(frame, tracked_objects)
-        # video.write(frame)
+        # Calculate the histogram of the current frame
+        hist = cv2.calcHist([frame], [0], None, [256], [0, 256])
+        hist = hist / hist.sum()  # Normalize the histogram
+        if prev_hist is not None:
+          print(cv2.compareHist(hist, prev_hist, cv2.HISTCMP_INTERSECT))
+        # Compare histograms and apply the model only if frames differ significantly
+        if prev_hist is None or cv2.compareHist(hist, prev_hist, cv2.HISTCMP_INTERSECT) < threshold:
+            print("Frame is taken")
+            curr_time1 = time.time()
+            yolo_detections = model(
+                frame,
+                conf_threshold=args.conf_threshold,
+                iou_threshold=args.iou_threshold,
+                image_size=args.img_size,
+                classes=args.classes,
+            )
+            # print(yolo_detections)
+            curr_time2 = time.time()
+            total_model_time += (curr_time2-curr_time1)
+            detections = yolo_detections_to_norfair_detections(
+                yolo_detections, track_points=args.track_points
+            )
+            # print(detections)
+            tracked_objects = tracker.update(detections=detections)
+            # print(tracked_objects)
+            # for obj in tracked_objects:
+            #     print(f"Tracked Object ID: {obj.id}, Class: {obj.label}")
+            curr_time3 = time.time()
+            total_tracking_time += (curr_time3-curr_time2)
+            # if args.track_points == "centroid":
+                # norfair.draw_points(frame, detections)
+                # norfair.draw_tracked_objects(frame, tracked_objects)
+            # elif args.track_points == "bbox":
+                # norfair.draw_boxes(frame, detections)
+                # norfair.draw_tracked_boxes(frame, tracked_objects)
+            # video.write(frame)
+        else:
+            print("Frame is not taken")
+
+        # Update the previous frame and its histogram
+        prev_frame = frame.copy()
+        prev_hist = hist
         
 end_time = time.time()
 

@@ -147,121 +147,120 @@ model = YOLO(args.model_name, device=args.device)
 # Function to answer query for finding truck in a given video
 def istruck(start,end,chunk_size,step_size,object,threshold,argum) :
 
-	# final answer
-	ans=[]
+    # final answer
+    ans=[]
 
-	for input_video_path in argum.files:
+    for input_video_path in argum.files:
         
 
-		distance_function = "iou" if argum.track_points == "bbox" else "euclidean"
-		distance_threshold = (
-			DISTANCE_THRESHOLD_BBOX
-			if argum.track_points == "bbox"
-			else DISTANCE_THRESHOLD_CENTROID
-		)
+        distance_function = "iou" if argum.track_points == "bbox" else "euclidean"
+        distance_threshold = (
+            DISTANCE_THRESHOLD_BBOX
+            if argum.track_points == "bbox"
+            else DISTANCE_THRESHOLD_CENTROID
+        )
 
-		tracker = Tracker(
-			distance_function=distance_function,
-			distance_threshold=distance_threshold,
-		)
+        tracker = Tracker(
+            distance_function=distance_function,
+            distance_threshold=distance_threshold,
+        )
 
 
-		# Open the Video Capture
-		cap = cv2.VideoCapture(input_video_path)
-		fps = int(cap.get(5))
+        # Open the Video Capture
+        cap = cv2.VideoCapture(input_video_path)
+        fps = int(cap.get(5))
 
-		if not cap.isOpened():
-			print("Error opening video file.")
-			return
-		
-		# indices range to be processed based on starting and ending time passed in function
-		start_frame = fps*start
-		end_frame = fps*end
+        if not cap.isOpened():
+            print("Error opening video file.")
+            return
+        
+        # indices range to be processed based on starting and ending time passed in function
+        start_frame = fps*start
+        end_frame = fps*end
 
-		# Array to store output per frame with confidence score
-		output= deque()
+        # Array to store output per frame with confidence score
+        output= deque()
 
-		# process video
-		cap.set(cv2.CAP_PROP_POS_FRAMES, start_frame)
+        # process video
+        cap.set(cv2.CAP_PROP_POS_FRAMES, start_frame)
 
-		frame_count = 0
-		valid_frames = 0
+        frame_count = 0
+        valid_frames = 0
 
-		prev_hist = None
+        prev_hist = None
 
-		while cap.isOpened() and start_frame < end_frame:
+        while cap.isOpened() and start_frame < end_frame:
 
-			start_frame+=1
+            start_frame+=1
 
-			ret, frame = cap.read()
-			if not ret:
-				break
+            ret, frame = cap.read()
+            if not ret:
+                break
 
-			# Calculate the histogram of the current frame
-			hist = cv2.calcHist([frame], [0], None, [256], [0, 256])
-			hist = hist / hist.sum()  # Normalize the histogram
+            # Calculate the histogram of the current frame
+            hist = cv2.calcHist([frame], [0], None, [256], [0, 256])
+            hist = hist / hist.sum()  # Normalize the histogram
+            objects=[]
+            if prev_hist is None or cv2.compareHist(hist, prev_hist, cv2.HISTCMP_INTERSECT) < HISTOGRAM_THRESHOLD:
 
-			if prev_hist is None or cv2.compareHist(hist, prev_hist, cv2.HISTCMP_INTERSECT) < HISTOGRAM_THRESHOLD:
+                # Perform object detection on the frame
+                results = model(
+                    frame,
+                    conf_threshold=argum.conf_threshold,
+                    iou_threshold=argum.iou_threshold,
+                    image_size=argum.img_size,
+                    classes=argum.classes,
+                )
 
-				# Perform object detection on the frame
-				results = model(
-					frame,
-					conf_threshold=argum.conf_threshold,
-					iou_threshold=argum.iou_threshold,
-					image_size=argum.img_size,
-					classes=argum.classes,
-				)
+                # do object tracking
+                detections = yolo_detections_to_norfair_detections(
+                    results, track_points=argum.track_points
+                )
+                # print(detections)
+                tracked_objects = tracker.update(detections=detections)
+                prev_hist = hist
 
-				# do object tracking
-				detections = yolo_detections_to_norfair_detections(
-					results, track_points=argum.track_points
-				)
-				# print(detections)
-				tracked_objects = tracker.update(detections=detections)
+                for obj in tracked_objects:
+                    if (obj.label==object) :
+                        objects.append(obj.id)
+                                
+            else:
+                print("Frame is not taken")
+                # detections = results.pandas().xyxy[0]
+                # confidence = 0
+                    
+            # for _,objects in detections.iterrows() :
+            #     if (objects['name']==object) :
+            #         confidence=max(confidence,objects['confidence'])
+            
+            # confidence that object is present in frame
+            output.append(objects)
 
-				# detections = results.pandas().xyxy[0]
-				# confidence = 0
-				objects=[]
+            frame_count += 1
 
-				for obj in tracked_objects:
-					if (obj.label==object) :
-						objects.append(obj.id)
-						
-				# for _,objects in detections.iterrows() :
-				#     if (objects['name']==object) :
-				#         confidence=max(confidence,objects['confidence'])
-				
-				# confidence that object is present in frame
-				output.append(objects)
+            if (len(objects)>0) :
+                valid_frames+=1
 
-				frame_count += 1
+            # if (confidence>=threshold) :
+            #     valid_frames+=1
 
-				if (len(objects)>0) :
-					valid_frames+=1
+            if (frame_count == chunk_size*fps) :
+                if (valid_frames>0) :
+                    do=set()
+                    for olist in output :
+                        for obj in olist :
+                            do.add(obj)
+                    ans.append((start_frame/fps-chunk_size,start_frame/fps,len(do),valid_frames))
+                    do.clear()
+                
+                for i in range(step_size*fps) :
+                    frame_count-=1
+                    if (len(output.popleft())>0) :
+                        valid_frames-=1
+                
 
-				# if (confidence>=threshold) :
-				#     valid_frames+=1
-
-				if (frame_count == chunk_size*fps) :
-					if (valid_frames>0) :
-						do=set()
-						for olist in output :
-							for obj in olist :
-								do.add(obj)
-						ans.append((start_frame/fps-chunk_size,start_frame/fps,len(do),valid_frames))
-						do.clear()
-					
-					for i in range(step_size*fps) :
-						frame_count-=1
-						if (len(output.popleft())>0) :
-							valid_frames-=1
-				prev_hist = hist
-				
-			else:
-				print("Frame is not taken")
-
-		cap.release()
-	return ans
+        cap.release()
+    return ans
         
 
 print(istruck(5,30,5,1,2,0.8,args))

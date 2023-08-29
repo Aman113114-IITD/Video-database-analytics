@@ -159,7 +159,7 @@ def query(start,end,chunk_size,step_size,object,argum) :
                     results, track_points=argum.track_points
                 )
                 tracked_objects = tracker.update(detections=detections)
-                if (len(tracked_objects)>0) :
+                if (len(tracked_objects)>=0) :
                     valid_frames+=1
                 for obj in tracked_objects:
                     if (obj.label==object) :

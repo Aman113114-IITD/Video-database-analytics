@@ -14,7 +14,7 @@ from collections import deque
 DISTANCE_THRESHOLD_BBOX: float = 0.7
 DISTANCE_THRESHOLD_CENTROID: int = 30
 MAX_DISTANCE: int = 10000
-HISTOGRAM_THRESHOLD = 0.98
+HISTOGRAM_THRESHOLD = 1
 
 
 ## YOLO CLASS
@@ -36,7 +36,8 @@ class YOLO:
         img: Union[str, np.ndarray],
         conf_threshold: float = 0.25,
         iou_threshold: float = 0.45,
-        image_size: int = 720,
+        image_height: int = 1080,
+        image_width: int = 1080,
         classes: Optional[List[int]] = None,
     ) -> torch.tensor:
 
@@ -44,7 +45,7 @@ class YOLO:
         self.model.iou = iou_threshold
         if classes is not None:
             self.model.classes = classes
-        detections = self.model(img, size=image_size)
+        detections = self.model(img, size=(image_height,image_width))
         return detections
 
 
@@ -100,10 +101,13 @@ def yolo_detections_to_norfair_detections(
 parser = argparse.ArgumentParser(description="Track objects in a video.")
 parser.add_argument("files", type=str, nargs="+", help="Video files to process")
 parser.add_argument(
-    "--model-name", type=str, default="yolov5m", help="YOLOv5 model name"
+    "--model-name", type=str, default="yolov5x", help="YOLOv5 model name"
 )
 parser.add_argument(
-    "--img-size", type=int, default="720", help="YOLOv5 inference size (pixels)"
+    "--img-height", type=int, default="1080", help="YOLOv5 inference height (pixels)"
+)
+parser.add_argument(
+    "--img-width", type=int, default="1080", help="YOLOv5 inference width (pixels)"
 )
 parser.add_argument(
     "--conf-threshold",
@@ -198,7 +202,8 @@ def isObject(start,end,chunk_size,step_size,object,argum) :
                     frame,
                     conf_threshold=argum.conf_threshold,
                     iou_threshold=argum.iou_threshold,
-                    image_size=argum.img_size,
+                    image_height=argum.img_height,
+                    image_width=argum.img_width,
                     classes=argum.classes,
                 )
 
@@ -248,7 +253,7 @@ def isObject(start,end,chunk_size,step_size,object,argum) :
 # start time of program
 start_time = time.time()
 
-print(isObject(5,30,5,1,2,args))
+print(isObject(0,30,5,1,2,args))
 
 end_time = time.time()
 elapsed_time = end_time - start_time

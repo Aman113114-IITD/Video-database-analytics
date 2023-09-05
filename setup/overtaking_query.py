@@ -15,6 +15,7 @@ DISTANCE_THRESHOLD_BBOX: float = 0.7
 DISTANCE_THRESHOLD_CENTROID: int = 30
 MAX_DISTANCE: int = 10000
 HISTOGRAM_THRESHOLD = 1
+OVERLAP_MAX_DISTANCE = 100
 
 
 ## YOLO CLASS
@@ -84,25 +85,36 @@ def yolo_detections_to_norfair_detections(
             )
     return norfair_detections
 
-# Function to check overlapping rectangles
-def is_overlap(box1, box2):
-    # Extract coordinates from the bounding box format
+def calculate_centroid(box):
+    x_min, y_min = box[0]
+    x_max, y_max = box[1]
+    centroid_x = (x_min + x_max) / 2
+    centroid_y = (y_min + y_max) / 2
+    return centroid_x, centroid_y
+
+def is_overlap_with_distance(box1, box2, max_distance):
     x1_min, y1_min = box1[0]
     x1_max, y1_max = box1[1]
 
     x2_min, y2_min = box2[0]
     x2_max, y2_max = box2[1]
 
-    # Check for overlap
-    if (
-        x1_max >= x2_min and
-        x2_max >= x1_min and
-        y1_max >= y2_min and
-        y2_max >= y1_min
-    ):
+    centroid1 = calculate_centroid(box1)
+    centroid2 = calculate_centroid(box2)
+
+    # Check for overlap in both x and y directions
+    overlap_x = max(0, min(x1_max, x2_max) - max(x1_min, x2_min))
+    overlap_y = max(0, min(y1_max, y2_max) - max(y1_min, y2_min))
+
+    # Check for distance between centroids
+    centroid_distance = math.sqrt((centroid1[0] - centroid2[0]) ** 2 + (centroid1[1] - centroid2[1]) ** 2)
+
+    # Check for overlap and centroid distance
+    if overlap_x > 0 and overlap_y > 0 and centroid_distance < max_distance:
         return True
     else:
         return False
+
 
 # Function to answer query for finding truck in a given video
 def query(start,end,chunk_size,step_size,object,argum) : 
@@ -112,6 +124,11 @@ def query(start,end,chunk_size,step_size,object,argum) :
 
     # final answer
     ans=[]
+    
+    ## appearance dictionary
+    appear = {}
+    
+    curr_id = 0
 
     for input_video_path in argum.files:
 
@@ -185,28 +202,67 @@ def query(start,end,chunk_size,step_size,object,argum) :
                 tracked_objects = tracker.update(detections=detections)
                 if (len(tracked_objects)>=0) :
                     valid_frames+=1
-                cur_obj=[]
+                # ...
+                curr_forward=[]
+                curr_backward=[]
+
                 for obj in tracked_objects:
-                    if (obj.label==object) :
-                        cur_obj.append(obj)
-                for i in range(len(cur_obj)) :
-                    for j in range(i+1,len(cur_obj)) :
-                        if (cur_obj[i].id<cur_obj[j].id) :
-                            if (cur_obj[i].id,cur_obj[j].id) in overtaking :
-                                odir=overtaking[(cur_obj[i].id,cur_obj[j].id)]
-                                a=is_overlap(odir[0],odir[1])
-                                b=is_overlap(cur_obj[i].past_detections[-1].points,cur_obj[j].past_detections[-1].points)
-                                if (a==False) and (b==True) :
-                                    overtake_ans.append((cur_obj[i].id,cur_obj[j].id,start_frame))
-                            overtaking[(cur_obj[i].id,cur_obj[j].id)]=(cur_obj[i].past_detections[-1].points,cur_obj[j].past_detections[-1].points)
-                        else :
-                            if (cur_obj[j].id,cur_obj[i].id) in overtaking :
-                                odir=overtaking[(cur_obj[j].id,cur_obj[i].id)]
-                                a=is_overlap(odir[0],odir[1])
-                                b=is_overlap(cur_obj[j].past_detections[-1].points,cur_obj[i].past_detections[-1].points)
-                                if (a==False) and (b==True) :
-                                    overtake_ans.append((cur_obj[j].id,cur_obj[i].id,start_frame))
-                            overtaking[(cur_obj[j].id,cur_obj[i].id)]=(cur_obj[j].past_detections[-1].points,cur_obj[i].past_detections[-1].points)
+                    if (obj.label==object):
+                        # Check if the object is moving forward or backward
+                        if len(obj.past_detections) >= 2:
+                            last_detection = obj.past_detections[-1]
+                            second_last_detection = obj.past_detections[-2]
+                            if last_detection.points[1][1] > second_last_detection.points[1][1]:
+                                curr_forward.append(obj)
+                            else:
+                                curr_backward.append(obj)
+                        else:
+                            # Default to considering as moving forward if we don't have enough data
+                            curr_forward.append(obj)
+                        if(appear.get(obj.id) is None):
+                            appear[obj.id] = curr_id
+                            curr_id += 1
+
+                # Compare objects moving forward
+                for i in range(len(curr_forward)):
+                    for j in range(i+1, len(curr_forward)):
+                        if(appear[curr_forward[i].id] > appear[curr_forward[j].id]):
+                            if(curr_forward[i].past_detections[-1].points[1][1] < curr_forward[j].past_detections[-1].points[1][1]):
+                                overtake_ans.append((curr_forward[i].id, curr_forward[j].id, start_frame))
+                        else:
+                            if(curr_forward[j].past_detections[-1].points[1][1] < curr_forward[i].past_detections[-1].points[1][1]):
+                                overtake_ans.append((curr_forward[i].id, curr_forward[j].id, start_frame))
+
+                # Compare objects moving backward
+                for i in range(len(curr_backward)):
+                    for j in range(i+1, len(curr_backward)):
+                        if(appear[curr_backward[i].id] > appear[curr_backward[j].id]):
+                            if(curr_backward[i].past_detections[-1].points[1][1] < curr_backward[j].past_detections[-1].points[1][1]):
+                                overtake_ans.append((curr_backward[i].id, curr_backward[j].id, start_frame))
+                        else:
+                            if(curr_backward[j].past_detections[-1].points[1][1] < curr_backward[i].past_detections[-1].points[1][1]):
+                                overtake_ans.append((curr_backward[i].id, curr_backward[j].id, start_frame))
+# ...
+
+                            
+                # for i in range(len(cur_obj)) :
+                #     for j in range(i+1,len(cur_obj)) :
+                #         if (cur_obj[i].id<cur_obj[j].id) :
+                #             if (cur_obj[i].id,cur_obj[j].id) in overtaking :
+                #                 odir=overtaking[(cur_obj[i].id,cur_obj[j].id)]
+                #                 a=is_overlap_with_distance(odir[0],odir[1],OVERLAP_MAX_DISTANCE)
+                #                 b=is_overlap_with_distance(cur_obj[i].past_detections[-1].points,cur_obj[j].past_detections[-1].points,OVERLAP_MAX_DISTANCE)
+                #                 if (a==False) and (b==True) :
+                #                     overtake_ans.append((cur_obj[i].id,cur_obj[j].id,start_frame))
+                #             overtaking[(cur_obj[i].id,cur_obj[j].id)]=(cur_obj[i].past_detections[-1].points,cur_obj[j].past_detections[-1].points)
+                #         else :
+                #             if (cur_obj[j].id,cur_obj[i].id) in overtaking :
+                #                 odir=overtaking[(cur_obj[j].id,cur_obj[i].id)]
+                #                 a=is_overlap_with_distance(odir[0],odir[1],OVERLAP_MAX_DISTANCE)
+                #                 b=is_overlap_with_distance(cur_obj[j].past_detections[-1].points,cur_obj[i].past_detections[-1].points,OVERLAP_MAX_DISTANCE)
+                #                 if (a==False) and (b==True) :
+                #                     overtake_ans.append((cur_obj[j].id,cur_obj[i].id,start_frame))
+                #             overtaking[(cur_obj[j].id,cur_obj[i].id)]=(cur_obj[j].past_detections[-1].points,cur_obj[i].past_detections[-1].points)
             else:
                 print("The frame is not taken !! ",start_frame)
 
@@ -221,7 +277,7 @@ def query(start,end,chunk_size,step_size,object,argum) :
                     distance_threshold=distance_threshold,
                 )
         cap.release()
-    return overtake_ans
+    return len(overtake_ans)
 
 ##parser arguements
 parser = argparse.ArgumentParser(description="Track objects in a video.")

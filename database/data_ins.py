@@ -145,6 +145,7 @@ def insert_data(start,end,chunk_size,step_size,argum) :
         end_frame = fps*end
 
         frame_count = 0
+        data = []
 
         # Process video from start frame
         cap.set(cv2.CAP_PROP_POS_FRAMES, start_frame)
@@ -181,33 +182,26 @@ def insert_data(start,end,chunk_size,step_size,argum) :
                     results, track_points=argum.track_points
                 )
                 tracked_objects = tracker.update(detections=detections)
-                if (len(tracked_objects)>=0) :
-                    valid_frames+=1
 
                 # data to be inserted
-                data = []
 
                 for obj in tracked_objects:
                     obj_box = obj.past_detections[-1].points
                     color_obj = color(frame,obj)
                     obj_data = (start_frame,obj.id,obj.label,color_obj,obj_box[0][0],obj_box[0][1],obj_box[1][0],obj_box[1][1])
                     data.append(obj_data)
+                print("Frame processed and batch inserted",start_frame)
 
-                cursor.executemany(insert_query, data)
-
-                conn.commit()
-
+                if (len(data)>10000) :
+                  cursor.executemany(insert_query, data)
+                  conn.commit()
+                  data=[]
                 # insert the data into snowflake       
             else:
                 print("The frame is not taken !! ",start_frame)
+        cursor.executemany(insert_query, data)
+        conn.commit()
 
-            # If complete window is processed store results and reset for next window
-            if (frame_count == chunk_size*fps) :
-                frame_count=0
-                tracker = Tracker(
-                    distance_function=distance_function,
-                    distance_threshold=distance_threshold,
-                )
         cap.release()
 
 ##parser arguements
@@ -220,12 +214,12 @@ parser.add_argument("--conf-threshold",type=float,default="0.25",help="YOLOv5 ob
 parser.add_argument("--iou-threshold", type=float, default="0.45", help="YOLOv5 IOU threshold for NMS")
 parser.add_argument("--classes",nargs="+",type=int,help="Filter by class: --classes 0, or --classes 0 2 3",)
 parser.add_argument("--device", type=str, default=None, help="Inference device: 'cpu' or 'cuda'")
-parser.add_argument("--track-points",type=str,default="centroid",help="Track points: 'centroid' or 'bbox'",)
+parser.add_argument("--track-points",type=str,default="bbox",help="Track points: 'centroid' or 'bbox'",)
 args = parser.parse_args()
 
 # start time of program
 start_time = time.time()
-print(insert_data(0,30,5,5,args))
+print(insert_data(0,60,5,5,args))
 end_time = time.time()
 elapsed_time = end_time - start_time
 print("Elapsed time:", elapsed_time)

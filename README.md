@@ -14,8 +14,8 @@ bin/kafka-topics.sh --create --topic quickstart-events --bootstrap-server localh
 
 ## Commands to run on collab
 !pip install norfair
-!python3 data_ins.py input.mp4 --track-points bbox
+!python3 kafka_ins.py input.mp4 --track-points bbox
 
 # commands to run java flink cep and read data from kafka stream
 mvn clean package
-mvn exec:java -Dexec.mainClass=wikiedits.WikipediaAnalysis
+mvn exec:java -Dexec.mainClass=btp.VideoAnalysis

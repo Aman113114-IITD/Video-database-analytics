@@ -168,8 +168,6 @@ def insert_data(start,end,chunk_size,step_size,argum) :
 					results, track_points=argum.track_points
 				)
 				tracked_objects = tracker.update(detections=detections)
-				# data to be inserted
-				data = []
 
 				for obj in tracked_objects:
 					obj_box = obj.past_detections[-1].points
@@ -178,7 +176,6 @@ def insert_data(start,end,chunk_size,step_size,argum) :
 					key = "key"
 					str_obj_data = str(obj_data)
 					producer.produce(topic, key=key, value=str_obj_data, on_delivery=delivery_report)
-					data.append(obj_data)
 
 				producer.flush()
 			

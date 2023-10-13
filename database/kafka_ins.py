@@ -168,9 +168,6 @@ def insert_data(start,end,chunk_size,step_size,argum) :
 					results, track_points=argum.track_points
 				)
 				tracked_objects = tracker.update(detections=detections)
-				if (len(tracked_objects)>=0) :
-					valid_frames+=1
-
 				# data to be inserted
 				data = []
 
@@ -202,7 +199,7 @@ def insert_data(start,end,chunk_size,step_size,argum) :
 ##parser arguements
 parser = argparse.ArgumentParser(description="Track objects in a video.")
 parser.add_argument("files", type=str, nargs="+", help="Video files to process")
-parser.add_argument("--model-name", type=str, default="yolov5x", help="YOLOv5 model name")
+parser.add_argument("--model-name", type=str, default="yolov5s", help="YOLOv5 model name")
 parser.add_argument("--img-height", type=int, default="1080", help="YOLOv5 inference height (pixels)")
 parser.add_argument("--img-width", type=int, default="1080", help="YOLOv5 inference width (pixels)")
 parser.add_argument("--conf-threshold",type=float,default="0.25",help="YOLOv5 object confidence threshold",)

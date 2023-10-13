@@ -8,6 +8,9 @@ $ bin/zookeeper-server-start.sh config/zookeeper.properties
 # Start the Kafka broker service
 $ bin/kafka-server-start.sh config/server.properties
 
+# command to make a topic
+bin/kafka-topics.sh --create --topic quickstart-events --bootstrap-server localhost:9092
+
 
 ## Commands to run on collab
 !pip install norfair

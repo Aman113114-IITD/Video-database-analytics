@@ -43,22 +43,22 @@ public class VideoAnalysis {
         DataStream<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>> eventStream = kafkaStream.map(new MapFunction<String, Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>() {
             @Override
             public Event<Integer, Integer, Integer, String, Float, Float, Float, Float> map(String value) {
-                java.util.regex.Pattern patternf = java.util.regex.Pattern.compile(regex);
-                Matcher matcher = patternf.matcher(value);
-                int frame_id = Integer.parseInt(matcher.group(1));
-                int obj_id = Integer.parseInt(matcher.group(2));
-                int obj_class = Integer.parseInt(matcher.group(3));
-                String color = matcher.group(4);
-                float xmin = Float.parseFloat(matcher.group(5));
-                float ymin = Float.parseFloat(matcher.group(6));
-                float xmax = Float.parseFloat(matcher.group(7));
-                float ymax = Float.parseFloat(matcher.group(8));
+                value = value.substring(1, value.length() - 1);
+                String[] values = value.split(", ");
+                int frame_id = Integer.parseInt(values[0]);
+                int obj_id = Integer.parseInt(values[1]);
+                int obj_class = Integer.parseInt(values[2]);
+                String color = values[3];
+                float xmin = Float.parseFloat(values[4]);
+                float ymin = Float.parseFloat(values[5]);
+                float xmax = Float.parseFloat(values[6]);
+                float ymax = Float.parseFloat(values[7]);
                 return new Event<>(frame_id, obj_id, obj_class, color, xmin, ymin, xmax, ymax);
             }
         });
 
         Pattern<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>, ?> pattern = Pattern.<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>begin("start")
-                .where(SimpleCondition.of(value -> true));
+                .where(SimpleCondition.of(value -> value.getobj_class()==5));
         DataStream<Map<String,List<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>>> resultStream = CEP.pattern(eventStream, pattern).inProcessingTime()
         .select(new PatternSelectFunction<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>, Map<String,List<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>>>() {
             @Override

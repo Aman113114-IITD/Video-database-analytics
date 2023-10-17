@@ -20,7 +20,6 @@ import java.util.Properties;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.java.typeutils.TupleTypeInfo;
 import org.apache.flink.api.java.functions.KeySelector;
@@ -42,7 +41,6 @@ public class VideoAnalysis {
         	.build();
     	DataStream<String> kafkaStream = env.fromSource(kafkaSource,WatermarkStrategy.noWatermarks(), "Kafka Source");
 
-    	String regex = "\\((\\d+), (\\d+), (\\d+), '(\\w+)', ([\\d.]+), ([\\d.]+), ([\\d.]+), ([\\d.]+)\\)";
     	DataStream<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>> eventStream = kafkaStream.map(new MapFunction<String, Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>() {
         	@Override
         	public Event<Integer, Integer, Integer, String, Float, Float, Float, Float> map(String value) {
@@ -62,19 +60,24 @@ public class VideoAnalysis {
 
    	 Pattern<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>, ?> pattern = Pattern.<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>begin("redObject")
    	 .where(
-   		 SimpleCondition.of(event -> true)
-   	 )
-   	 .next("blueObject")
+        new SimpleCondition<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>() {
+            @Override
+            public boolean filter(Event<Integer, Integer, Integer, String, Float, Float, Float, Float> event) throws Exception {
+                return event.getcolor().equals("'RED'");
+            }
+        }
+	 )
+   	 .next("blackObject")
    	 .where(
    		 new IterativeCondition<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>() {
    			 @Override
    			 public boolean filter(
-   				 Event<Integer, Integer, Integer, String, Float, Float, Float, Float> blueEvent,
+   				 Event<Integer, Integer, Integer, String, Float, Float, Float, Float> blackEvent,
    				 Context<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>> context
    			 ) throws Exception {
-   				 // Check if the ymin of blueObject is less than ymin of redObject
+   				 // Check if the ymin of blackObject is less than ymin of redObject
    				 Event<Integer, Integer, Integer, String, Float, Float, Float, Float> redEvent = context.getEventsForPattern("redObject").iterator().next();
-   				 return blueEvent.getymin() < redEvent.getymin();
+   				 return blackEvent.getymin() > redEvent.getymin() && blackEvent.getcolor().equals("'BLACK'");
    			 }
    		 }
    	 );
@@ -88,8 +91,8 @@ public class VideoAnalysis {
    			 @Override
    			 public Tuple2<List<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>, List<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>> select(Map<String, List<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>> pattern) throws Exception {
    				 List<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>> redObject = pattern.get("redObject");
-   				 List<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>> blueObject = pattern.get("blueObject");
-   				 return new Tuple2<>(redObject, blueObject);
+   				 List<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>> blackObject = pattern.get("blackObject");
+   				 return new Tuple2<>(redObject, blackObject);
    			 }
    		 }
    	 );

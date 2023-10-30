@@ -1,5 +1,6 @@
 package btp;
 import org.apache.flink.api.common.functions.MapFunction;
+import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.datastream.DataStream;
@@ -20,11 +21,15 @@ import java.util.Properties;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.java.typeutils.TupleTypeInfo;
 import org.apache.flink.api.java.functions.KeySelector;
+import org.apache.flink.util.Collector;
 
 public class VideoAnalysis {
+
+	private static Integer last_frameid = 0;
 
 	public static void main(String[] args) throws Exception {
    	 
@@ -41,9 +46,11 @@ public class VideoAnalysis {
         	.build();
     	DataStream<String> kafkaStream = env.fromSource(kafkaSource,WatermarkStrategy.noWatermarks(), "Kafka Source");
 
-    	DataStream<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>> eventStream = kafkaStream.map(new MapFunction<String, Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>() {
-        	@Override
-        	public Event<Integer, Integer, Integer, String, Float, Float, Float, Float> map(String value) {
+		ArrayList<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>> frame_history = new ArrayList<>();
+
+    	DataStream<PairBB> eventStream = kafkaStream.flatMap(new FlatMapFunction<String, PairBB>() {
+			@Override
+			public void flatMap(String value, Collector<PairBB> out) {
             	value = value.substring(1, value.length() - 1);
             	String[] values = value.split(", ");
             	int frame_id = Integer.parseInt(values[0]);
@@ -54,53 +61,40 @@ public class VideoAnalysis {
             	float ymin = Float.parseFloat(values[5]);
             	float xmax = Float.parseFloat(values[6]);
             	float ymax = Float.parseFloat(values[7]);
-            	return new Event<>(frame_id, obj_id, obj_class, color, xmin, ymin, xmax, ymax);
+            	Event<Integer, Integer, Integer, String, Float, Float, Float, Float> cur_obj = new Event<>(frame_id, obj_id, obj_class, color, xmin, ymin, xmax, ymax);
+				if (frame_history.isEmpty()) {
+					frame_history.add(cur_obj);
+					last_frameid=cur_obj.getframe_id();
+				}
+				else {
+					if (last_frameid==cur_obj.getframe_id()) {
+						for ( int i = 0 ; i < frame_history.size() ; i++) {
+							PairBB var = new PairBB(frame_history.get(i),cur_obj);
+							out.collect(var);
+						}
+						frame_history.add(cur_obj);
+					}
+					else {
+						frame_history.clear();
+						last_frameid=cur_obj.getframe_id();
+						frame_history.add(cur_obj);
+					}
+				}
         	}
     	});
 
-   	 Pattern<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>, ?> pattern = Pattern.<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>begin("redObject")
-   	 .where(
-        new SimpleCondition<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>() {
+		Pattern<PairBB, ?> pattern = Pattern.<PairBB>begin("start")
+                .where(SimpleCondition.of(value -> (value.getobject1().getobj_class()==5 && value.getobject2().getobj_class()==5)));
+		
+        DataStream<Map<String,List<PairBB>>> resultStream = CEP.pattern(eventStream, pattern).inProcessingTime()
+        .select(new PatternSelectFunction<PairBB, Map<String,List<PairBB>>>() {
             @Override
-            public boolean filter(Event<Integer, Integer, Integer, String, Float, Float, Float, Float> event) throws Exception {
-                return event.getcolor().equals("'RED'");
+            public Map<String,List<PairBB>> select(Map<String, List<PairBB>> pattern) throws Exception {
+                Map<String, List<PairBB>> resultList = pattern;
+                return resultList;
             }
-        }
-	 )
-   	 .next("blackObject")
-   	 .where(
-   		 new IterativeCondition<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>() {
-   			 @Override
-   			 public boolean filter(
-   				 Event<Integer, Integer, Integer, String, Float, Float, Float, Float> blackEvent,
-   				 Context<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>> context
-   			 ) throws Exception {
-   				 // Check if the ymin of blackObject is less than ymin of redObject
-   				 Event<Integer, Integer, Integer, String, Float, Float, Float, Float> redEvent = context.getEventsForPattern("redObject").iterator().next();
-   				 return blackEvent.getymin() > redEvent.getymin() && blackEvent.getcolor().equals("'BLACK'");
-   			 }
-   		 }
-   	 );
-
-    	// Apply the pattern to the event stream
-   	 PatternStream<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>> patternStream = CEP.pattern(eventStream, pattern).inProcessingTime();
-
-   	 // Select and print the matched patterns
-   	 DataStream<Tuple2<List<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>, List<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>>> resultStream = patternStream.select(
-   		 new PatternSelectFunction<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>, Tuple2<List<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>, List<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>>>() {
-   			 @Override
-   			 public Tuple2<List<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>, List<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>> select(Map<String, List<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>> pattern) throws Exception {
-   				 List<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>> redObject = pattern.get("redObject");
-   				 List<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>> blackObject = pattern.get("blackObject");
-   				 return new Tuple2<>(redObject, blackObject);
-   			 }
-   		 }
-   	 );
+        });
     	resultStream.print();
     	env.execute();
 	}
 }
-
-
-
-

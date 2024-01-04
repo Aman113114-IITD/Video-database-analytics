@@ -208,7 +208,7 @@ args = parser.parse_args()
 
 # start time of program
 start_time = time.time()
-print(insert_data(0,30,5,5,args))
+print(insert_data(0,5,5,5,args))
 end_time = time.time()
 elapsed_time = end_time - start_time
 print("Elapsed time:", elapsed_time)

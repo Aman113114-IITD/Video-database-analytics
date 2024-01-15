@@ -47,63 +47,29 @@ public class Test1 {
     	DataStream<String> kafkaStream = env.fromSource(kafkaSource,WatermarkStrategy.noWatermarks(), "Kafka Source");
 
 
-		DataStream<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>> eventStream_single = kafkaStream.map(new MapFunction<String, Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>() {
+		DataStream<Integer> eventStream_single = kafkaStream.map(new MapFunction<String, Integer>() {
         	@Override
-        	public Event<Integer, Integer, Integer, String, Float, Float, Float, Float> map(String value) {
-            	value = value.substring(1, value.length() - 1);
-            	String[] values = value.split(", ");
-            	int frame_id = Integer.parseInt(values[0]);
-            	int obj_id = Integer.parseInt(values[1]);
-            	int obj_class = Integer.parseInt(values[2]);
-            	String color = values[3];
-            	float xmin = Float.parseFloat(values[4]);
-            	float ymin = Float.parseFloat(values[5]);
-            	float xmax = Float.parseFloat(values[6]);
-            	float ymax = Float.parseFloat(values[7]);
-            	return new Event<>(frame_id, obj_id, obj_class, color, xmin, ymin, xmax, ymax);
+        	public Integer map(String value) {
+            	int frame_id = Integer.parseInt(value);
+            	return frame_id;
         	}
     	});
 
-		Pattern<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>, ?> pattern1 = Pattern.<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>begin("q1")
-                .where(SimpleCondition.of(value -> (value.getframe_id()>0)));
+		Pattern<Integer, ?> pattern1 = Pattern.<Integer>begin("q1")
+                .where(SimpleCondition.of(value -> (value>0)));
 
-        Pattern<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>, ?> pattern2 = Pattern.<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>begin("q1")
-                .where(SimpleCondition.of(value -> (value.getframe_id()==1)))
-                .oneOrMore()
-                .until(SimpleCondition.of(value -> (value.getframe_id()==2)));
-
-		Pattern<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>, ?> pattern_single = Pattern.<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>begin("a")
-            .where(new SimpleCondition<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>() {
-                @Override
-                public boolean filter(Event<Integer, Integer, Integer, String, Float, Float, Float, Float> event) {
-                    return true;
-					// return true;
-                }
-            })
-            .followedBy("b")
-            .where(new IterativeCondition<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>() {
-                @Override
-                public boolean filter(Event<Integer, Integer, Integer, String, Float, Float, Float, Float> event, Context<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>> context) throws Exception {
-                    Event<Integer, Integer, Integer, String, Float, Float, Float, Float> a = context.getEventsForPattern("a").iterator().next();
-					float cenxo = (a.getxmax()+a.getxmin())/2;
-					float cenyo = (a.getymax()+a.getymin())/2;
-					float cenxn = (event.getxmax()+event.getxmin())/2;
-					float cenyn = (event.getymax()+event.getymin())/2;
-					float width = (a.getxmax()-a.getxmin());
-					float height = (a.getymax()-a.getymin());
-					if ((event.getframe_id()>a.getframe_id()) && (event.getobj_id()==a.getobj_id()) && ((cenxo-cenxn)>=width*0.2) && ((cenyo-cenyn)>=height*0.2)) {
-						System.out.println("A car is moving in reverse direction");
-					}
-                    return  (event.getframe_id()>a.getframe_id()) && (event.getobj_id()==a.getobj_id()) && ((cenxo-cenxn)>=width*0.2) && ((cenyo-cenyn)>=height*0.2) ;
-                }
-            });
+        Pattern<Integer, ?> pattern2 = Pattern.<Integer>begin("q1")
+                .where(SimpleCondition.of(value -> (value==1)))
+                .oneOrMore().greedy();
+                // .times(2).greedy();
+                // .until(SimpleCondition.of(value -> (value==2)));
 
 
-		DataStream<Map<String,List<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>>> resultStream = CEP.pattern(eventStream_single, pattern1).inProcessingTime()
-        .select(new PatternSelectFunction<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>, Map<String,List<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>>>() {
+		DataStream<Map<String,List<Integer>>> resultStream = CEP.pattern(eventStream_single, pattern2).inProcessingTime()
+        .select(new PatternSelectFunction<Integer, Map<String,List<Integer>>>() {
             @Override
-            public Map<String,List<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>> select(Map<String, List<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>> pattern) throws Exception {
-                Map<String, List<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>> resultList = pattern;
+            public Map<String,List<Integer>> select(Map<String, List<Integer>> pattern) throws Exception {
+                Map<String, List<Integer>> resultList = pattern;
                 return resultList;
             }
         });

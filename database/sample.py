@@ -22,7 +22,7 @@ if __name__ == "__main__":
 	float_garb = 0
 	string_garb = "0"
 	for line in Lines:
-		obj_data = (line,int_garb,int_garb,string_garb,float_garb,float_garb,float_garb,float_garb)
+		obj_data = (int(line.strip()),int_garb,int_garb,string_garb,float_garb,float_garb,float_garb,float_garb)
 		key = "key"
 		str_obj_data = str(obj_data)
 		producer.produce(topic, key=key, value=str_obj_data, on_delivery=delivery_report)

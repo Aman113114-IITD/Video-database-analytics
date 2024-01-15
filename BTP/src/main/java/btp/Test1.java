@@ -27,6 +27,7 @@ import org.apache.flink.api.java.typeutils.TupleTypeInfo;
 import org.apache.flink.api.java.functions.KeySelector;
 import org.apache.flink.util.Collector;
 import org.apache.flink.cep.nfa.aftermatch.AfterMatchSkipStrategy;
+import org.apache.commons.lang3.tuple.Pair;
 
 public class Test1 {
 
@@ -47,34 +48,48 @@ public class Test1 {
     	DataStream<String> kafkaStream = env.fromSource(kafkaSource,WatermarkStrategy.noWatermarks(), "Kafka Source");
 
 
-		DataStream<Integer> eventStream_single = kafkaStream.map(new MapFunction<String, Integer>() {
+		DataStream<Pair<Integer, Integer>> eventStream_single = kafkaStream.map(new MapFunction<String, Pair<Integer, Integer>>() {
         	@Override
-        	public Integer map(String value) {
-            	int frame_id = Integer.parseInt(value);
-            	return frame_id;
+        	public Pair<Integer, Integer> map(String value) {
+            	value = value.substring(1, value.length() - 1);
+            	String[] values = value.split(", ");
+            	int frame_id = Integer.parseInt(values[0]);
+            	int obj_id = Integer.parseInt(values[1]);
+            	return Pair.of(frame_id,obj_id);
         	}
     	});
 
-		Pattern<Integer, ?> pattern1 = Pattern.<Integer>begin("q1")
-                .where(SimpleCondition.of(value -> (value>0)));
+		Pattern<Pair<Integer, Integer>, ?> pattern1 = Pattern.<Pair<Integer, Integer>>begin("q1")
+                .where(SimpleCondition.of(value -> (value.getLeft()==1)))
+                .oneOrMore();
 
-        Pattern<Integer, ?> pattern2 = Pattern.<Integer>begin("q1")
-                .where(SimpleCondition.of(value -> (value==1)))
+        Pattern<Pair<Integer, Integer>, ?> pattern2 = Pattern.<Pair<Integer, Integer>>begin("q2")
+                .where(SimpleCondition.of(value -> (value.getLeft()==1)))
                 .oneOrMore().greedy();
                 // .times(2).greedy();
                 // .until(SimpleCondition.of(value -> (value==2)));
 
 
-		DataStream<Map<String,List<Integer>>> resultStream = CEP.pattern(eventStream_single, pattern2).inProcessingTime()
-        .select(new PatternSelectFunction<Integer, Map<String,List<Integer>>>() {
+		DataStream<Map<String,List<Pair<Integer, Integer>>>> resultStream1 = CEP.pattern(eventStream_single, pattern1).inProcessingTime()
+        .select(new PatternSelectFunction<Pair<Integer, Integer>, Map<String,List<Pair<Integer, Integer>>>>() {
             @Override
-            public Map<String,List<Integer>> select(Map<String, List<Integer>> pattern) throws Exception {
-                Map<String, List<Integer>> resultList = pattern;
+            public Map<String,List<Pair<Integer, Integer>>> select(Map<String, List<Pair<Integer, Integer>>> pattern) throws Exception {
+                Map<String, List<Pair<Integer, Integer>>> resultList = pattern;
                 return resultList;
             }
         });
 
-    	resultStream.print();
+        // DataStream<Map<String,List<Pair<Integer, Integer>>>> resultStream2 = CEP.pattern(eventStream_single, pattern2).inProcessingTime()
+        // .select(new PatternSelectFunction<Pair<Integer, Integer>, Map<String,List<Pair<Integer, Integer>>>>() {
+        //     @Override
+        //     public Map<String,List<Pair<Integer, Integer>>> select(Map<String, List<Pair<Integer, Integer>>> pattern) throws Exception {
+        //         Map<String, List<Pair<Integer, Integer>>> resultList = pattern;
+        //         return resultList;
+        //     }
+        // });
+
+    	resultStream1.print();
+        // resultStream2.print();
     	env.execute();
 	}
 }

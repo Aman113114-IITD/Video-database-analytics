@@ -10,11 +10,11 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print('Using device:', device)
 
 # Load YOLOv5 model and move it to GPU
-model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
+model = torch.hub.load('ultralytics/yolov5', 'yolov5l')
 model.to(device)
 
 # Open the video capture
-input_video_path = 'input.mp4'  # Change to your input video path
+input_video_path = '/home/aman/Video-database-analytics/setup/videos/fm2.mp4'  # Change to your input video path
 cap = cv2.VideoCapture(input_video_path)
 
 # Get video properties

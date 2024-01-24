@@ -48,8 +48,8 @@ class YOLO:
 		img: Union[str, np.ndarray],
 		conf_threshold: float = 0.25,
 		iou_threshold: float = 0.45,
-		image_height: int = 1080,
-		image_width: int = 1080,
+		image_height: int = 640,
+		image_width: int = 640,
 		classes: Optional[List[int]] = None,
 	) -> torch.tensor:
 		self.model.conf = conf_threshold
@@ -141,6 +141,7 @@ def insert_data(start,end,chunk_size,step_size,argum) :
 			# Read next frame
 			start_frame+=1
 			frame_count += 1
+			print(start_frame)
 			ret, frame = cap.read()
 			if not ret:
 				break
@@ -175,6 +176,7 @@ def insert_data(start,end,chunk_size,step_size,argum) :
 					obj_data = (start_frame,obj.id,obj.label,color_obj,obj_box[0][0],obj_box[0][1],obj_box[1][0],obj_box[1][1])
 					key = "key"
 					str_obj_data = str(obj_data)
+					print(str_obj_data)
 					producer.produce(topic, key=key, value=str_obj_data, on_delivery=delivery_report)
 
 				producer.flush()
@@ -196,9 +198,9 @@ def insert_data(start,end,chunk_size,step_size,argum) :
 ##parser arguements
 parser = argparse.ArgumentParser(description="Track objects in a video.")
 parser.add_argument("files", type=str, nargs="+", help="Video files to process")
-parser.add_argument("--model-name", type=str, default="yolov5s", help="YOLOv5 model name")
-parser.add_argument("--img-height", type=int, default="1080", help="YOLOv5 inference height (pixels)")
-parser.add_argument("--img-width", type=int, default="1080", help="YOLOv5 inference width (pixels)")
+parser.add_argument("--model-name", type=str, default="yolov5l", help="YOLOv5 model name")
+parser.add_argument("--img-height", type=int, default="640", help="YOLOv5 inference height (pixels)")
+parser.add_argument("--img-width", type=int, default="640", help="YOLOv5 inference width (pixels)")
 parser.add_argument("--conf-threshold",type=float,default="0.25",help="YOLOv5 object confidence threshold",)
 parser.add_argument("--iou-threshold", type=float, default="0.45", help="YOLOv5 IOU threshold for NMS")
 parser.add_argument("--classes",nargs="+",type=int,help="Filter by class: --classes 0, or --classes 0 2 3",)
@@ -208,7 +210,7 @@ args = parser.parse_args()
 
 # start time of program
 start_time = time.time()
-print(insert_data(0,5,5,5,args))
+print(insert_data(0,25,5,5,args))
 end_time = time.time()
 elapsed_time = end_time - start_time
 print("Elapsed time:", elapsed_time)

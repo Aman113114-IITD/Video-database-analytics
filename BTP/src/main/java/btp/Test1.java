@@ -59,9 +59,37 @@ public class Test1 {
         	}
     	});
 
-		Pattern<Pair<Integer, Integer>, ?> pattern1 = Pattern.<Pair<Integer, Integer>>begin("q1")
-                .where(SimpleCondition.of(value -> (value.getLeft()==1)))
-                .oneOrMore();
+		// Pattern<Pair<Integer, Integer>, ?> pattern1 = Pattern.<Pair<Integer, Integer>>begin("q1",AfterMatchSkipStrategy.skipPastLastEvent())
+        //         .where(SimpleCondition.of(value -> (value.getLeft()==1)))
+        //         .oneOrMore().greedy();
+		Pattern<Pair<Integer, Integer>, ?> pattern1 = Pattern.<Pair<Integer, Integer>>begin("q11")
+                .where(SimpleCondition.of(value -> true))
+                .followedBy("q12")
+				.where(new IterativeCondition<Pair<Integer, Integer>>() {
+					@Override
+					public boolean filter(Pair<Integer, Integer> event, Context<Pair<Integer, Integer>> context) throws Exception {
+						// System.out.println("START");
+						// for ( Pair<Integer, Integer> val : context.getEventsForPattern("q11")) {
+						// 	System.out.println(val.getLeft());
+						// }
+						// System.out.println("END");
+						Pair<Integer, Integer> a = context.getEventsForPattern("q11").iterator().next();
+						return a.getLeft()+1<event.getLeft() ;
+					}
+				})
+				.followedBy("q13")
+				.where(new IterativeCondition<Pair<Integer, Integer>>() {
+					@Override
+					public boolean filter(Pair<Integer, Integer> event, Context<Pair<Integer, Integer>> context) throws Exception {
+						// System.out.println("START2");
+						// for ( Pair<Integer, Integer> val : context.getEventsForPattern("q12")) {
+						// 	System.out.println(val.getLeft());
+						// }
+						// System.out.println("END2");
+						Pair<Integer, Integer> b = context.getEventsForPattern("q12").iterator().next();
+						return (b.getLeft()-1>event.getLeft()) ;
+					}
+            	});
 
         Pattern<Pair<Integer, Integer>, ?> pattern2 = Pattern.<Pair<Integer, Integer>>begin("q2")
                 .where(SimpleCondition.of(value -> (value.getLeft()==1)))

@@ -16,18 +16,17 @@ def delivery_report(err, msg):
 producer = Producer(conf)
 
 if __name__ == "__main__":
-	file = open('logs1.txt','r')
+	file = open('stream.txt','r')
 	Lines = file.readlines()
 	int_garb = 0
 	float_garb = 0
 	string_garb = "0"
 	sr_no=1
 	for line in Lines:
-		obj_data = line.strip()
+		obj_data = (int(line.strip()),sr_no)
 		sr_no+=1
 		key = "key"
-		str_obj_data = obj_data
+		str_obj_data = str(obj_data)
 		producer.produce(topic, key=key, value=str_obj_data, on_delivery=delivery_report)
 
 producer.flush()
-

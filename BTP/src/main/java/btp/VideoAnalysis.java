@@ -113,11 +113,10 @@ public class VideoAnalysis {
             .where(new SimpleCondition<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>() {
                 @Override
                 public boolean filter(Event<Integer, Integer, Integer, String, Float, Float, Float, Float> event) {
-                    return true;
-					// return true;
+                    return event.getobj_class()==2;
                 }
             })
-            .followedBy("b")
+            .followedByAny("b")
             .where(new IterativeCondition<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>() {
                 @Override
                 public boolean filter(Event<Integer, Integer, Integer, String, Float, Float, Float, Float> event, Context<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>> context) throws Exception {
@@ -128,10 +127,27 @@ public class VideoAnalysis {
 					float cenyn = (event.getymax()+event.getymin())/2;
 					float width = (a.getxmax()-a.getxmin());
 					float height = (a.getymax()-a.getymin());
-					if ((event.getframe_id()>a.getframe_id()) && (event.getobj_id()==a.getobj_id()) && ((cenxo-cenxn)>=width*0.2) && ((cenyo-cenyn)>=height*0.2)) {
+					if ((event.getframe_id()>a.getframe_id()) && (event.getobj_id()==a.getobj_id()) && ((cenxn-cenxo)>=width*9)) {
+						System.out.println("A car is moving in forward direction");
+					}
+                    return  (event.getframe_id()>a.getframe_id()) && (event.getobj_id()==a.getobj_id()) && ((cenxn-cenxo)>=width*9) ;
+                }
+            })
+			.followedByAny("c")
+            .where(new IterativeCondition<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>() {
+                @Override
+                public boolean filter(Event<Integer, Integer, Integer, String, Float, Float, Float, Float> event, Context<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>> context) throws Exception {
+                    Event<Integer, Integer, Integer, String, Float, Float, Float, Float> a = context.getEventsForPattern("b").iterator().next();
+					float cenxo = (a.getxmax()+a.getxmin())/2;
+					float cenyo = (a.getymax()+a.getymin())/2;
+					float cenxn = (event.getxmax()+event.getxmin())/2;
+					float cenyn = (event.getymax()+event.getymin())/2;
+					float width = (a.getxmax()-a.getxmin());
+					float height = (a.getymax()-a.getymin());
+					if ((event.getframe_id()>a.getframe_id()) && (event.getobj_id()==a.getobj_id()) && ((cenxo-cenxn)>=width*9) ) {
 						System.out.println("A car is moving in reverse direction");
 					}
-                    return  (event.getframe_id()>a.getframe_id()) && (event.getobj_id()==a.getobj_id()) && ((cenxo-cenxn)>=width*0.2) && ((cenyo-cenyn)>=height*0.2) ;
+                    return  (event.getframe_id()>a.getframe_id()) && (event.getobj_id()==a.getobj_id()) && ((cenxo-cenxn)>=width*9) ;
                 }
             });
 

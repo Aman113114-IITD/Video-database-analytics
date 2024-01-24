@@ -6,7 +6,7 @@ import cv2  # OpenCV library for working with videos
 model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
 
 # Open the video file using OpenCV
-video_path = 'video.mp4'  # Replace with your video file path
+video_path = '/home/aman/Video-database-analytics/setup/videos/input.mp4'  # Replace with your video file path
 cap = cv2.VideoCapture(video_path)
 
 # Open a log file for writing

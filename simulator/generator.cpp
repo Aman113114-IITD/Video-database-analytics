@@ -134,7 +134,7 @@ vector<entry> generate_stream() {
 
 int main() {
     vector<entry> video1=generate_stream();
-    ofstream out("../database/logs1.txt");
+    ofstream out("logs1.txt");
     for ( int i = 0 ; i < video1.size() ; i++ ) {
         string var = video1[i].convert_to_string();
         out<<var<<"\n";

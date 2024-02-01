@@ -28,7 +28,7 @@ import org.apache.flink.api.java.functions.KeySelector;
 import org.apache.flink.util.Collector;
 import org.apache.flink.cep.nfa.aftermatch.AfterMatchSkipStrategy;
 
-public class Cellphone {
+public class Riding {
 
 	private static Integer last_frameid = 0;
 
@@ -69,7 +69,7 @@ public class Cellphone {
 					last_frameid=cur_obj.getframe_id();
 				}
 				else {
-					if (last_frameid==cur_obj.getframe_id()) {
+					if (last_frameid.equals(cur_obj.getframe_id())) {
 						for ( int i = 0 ; i < frame_history.size() ; i++) {
 							PairBB var = new PairBB(frame_history.get(i),cur_obj);
 							out.collect(var);
@@ -103,61 +103,36 @@ public class Cellphone {
         // 	}
     	// });
 
-		// Pattern<PairBB, ?> pattern = Pattern.<PairBB>begin("start")
-        //         .where(SimpleCondition.of(value -> (value.getobject1().getobj_class()==5 && value.getobject2().getobj_class()==5)));
-
-		// Pattern<PairBB, ?> pattern = Pattern.<PairBB>begin("start")
-        //         .where(SimpleCondition.of(value -> (value.getobject1().getobj_class()==5 && value.getobject2().getobj_class()==5)));
-
-		// Pattern<PairBB, ?> pattern = Pattern.<PairBB>begin("a")
-        //     .where(new SimpleCondition<PairBB>() {
-        //         @Override
-        //         public boolean filter(PairBB event) {
-        //             // return event.getobject1().getxmin()>event.getobject2().getxmin();
-		// 			return true;
-        //         }
-        //     });
-            // .followedBy("b")
-            // .where(new IterativeCondition<PairBB>() {
-            //     @Override
-            //     public boolean filter(PairBB event, Context<PairBB> context) throws Exception {
-            //         PairBB a = context.getEventsForPattern("a").iterator().next();
-            //         return  (event.getobject1().getxmin() < a.getobject1().getxmin()-0.01*(a.getobject1().getxmax()-a.getobject1().getxmin())) && (event.getobject1().getframe_id() > a.getobject1().getframe_id()) && (event.getobject1().getobj_id()==a.getobject1().getobj_id()) && (event.getobject2().getobj_id()==a.getobject2().getobj_id());
-            //     }
-            // });
-
 		Pattern<PairBB, ?> pattern = Pattern.<PairBB>begin("a")
             .where(new SimpleCondition<PairBB>() {
                 @Override
                 public boolean filter(PairBB event) {
 					Event<Integer, Integer, Integer, String, Float, Float, Float, Float> cp=new Event<>(1,1,1,"a",0.0f,0.0f,0.0f,0.0f);
 					Event<Integer, Integer, Integer, String, Float, Float, Float, Float> per=new Event<>(1,1,1,"a",0.0f,0.0f,0.0f,0.0f);
-					if ((event.getobject1().getobj_class()==67) && (event.getobject2().getobj_class()==0)) {
+					if ((event.getobject1().getobj_class().equals(1)) && (event.getobject2().getobj_class().equals(0))) {
+						// return true;
 						cp=event.getobject1();
 						per=event.getobject2();
 					}
-					else if ((event.getobject1().getobj_class()==0) && (event.getobject2().getobj_class()==67)) {
+					else if ((event.getobject1().getobj_class().equals(0)) && (event.getobject2().getobj_class().equals(1))) {
+						// return true;
 						cp=event.getobject2();
 						per=event.getobject1();
 					}
 					else {
 						return false;
 					}
-					if ((cp.getxmax()<per.getxmax()) && (cp.getxmin()>per.getxmin()) && (cp.getymax()<per.getymax()) && (cp.getymin()>per.getymin())) {
-						System.out.println("Person is using cellphone on road");
+					float cenx=(cp.getxmin()+cp.getxmax())/2;
+					float ceny=(cp.getymin()+cp.getymax())/2;
+					if ((cp.getxmin()<=per.getxmin()) && (cp.getxmax()>=per.getxmax())) {
+						System.out.println(per.getframe_id() + " Riding : "+per.getobj_id()+" "+cp.getobj_id());
 					}
-					return (cp.getxmax()<per.getxmax()) && (cp.getxmin()>per.getxmin()) && (cp.getymax()<per.getymax()) && (cp.getymin()>per.getymin());
+					else if ( Math.abs(cenx-per.getxmax())<=Math.abs(per.getxmax()-per.getxmin())){
+						System.out.println(per.getframe_id() + " Not Riding : "+per.getobj_id()+" "+cp.getobj_id());
+					}
+					return false;
                 }
             });
-
-		// Pattern<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>, ?> pattern_single = Pattern.<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>begin("e1",AfterMatchSkipStrategy.skipPastLastEvent())
-		// 	.where(new SimpleCondition<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>() {
-		// 		@Override
-		// 		public boolean filter(Event<Integer, Integer, Integer, String, Float, Float, Float, Float> event) {
-		// 			return event.getobj_class()==2;
-		// 		}
-		// 	})
-		// 	.times(150);
 		
         DataStream<Map<String,List<PairBB>>> resultStream = CEP.pattern(eventStream, pattern).inProcessingTime()
         .select(new PatternSelectFunction<PairBB, Map<String,List<PairBB>>>() {
@@ -167,15 +142,6 @@ public class Cellphone {
                 return resultList;
             }
         });
-
-		// DataStream<Map<String,List<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>>> resultStream = CEP.pattern(eventStream_single, pattern_single).inProcessingTime()
-        // .select(new PatternSelectFunction<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>, Map<String,List<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>>>() {
-        //     @Override
-        //     public Map<String,List<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>> select(Map<String, List<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>> pattern) throws Exception {
-        //         Map<String, List<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>> resultList = pattern;
-        //         return resultList;
-        //     }
-        // });
 
     	resultStream.print();
     	env.execute();

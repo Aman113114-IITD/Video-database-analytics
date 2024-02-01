@@ -69,7 +69,7 @@ public class VideoAnalysis {
 		// 			last_frameid=cur_obj.getframe_id();
 		// 		}
 		// 		else {
-		// 			if (last_frameid==cur_obj.getframe_id()) {
+		// 			if (last_frameid.equals(cur_obj.getframe_id())) {
 		// 				for ( int i = 0 ; i < frame_history.size() ; i++) {
 		// 					PairBB var = new PairBB(frame_history.get(i),cur_obj);
 		// 					out.collect(var);
@@ -103,17 +103,11 @@ public class VideoAnalysis {
         	}
     	});
 
-		// Pattern<PairBB, ?> pattern = Pattern.<PairBB>begin("start")
-        //         .where(SimpleCondition.of(value -> (value.getobject1().getobj_class()==5 && value.getobject2().getobj_class()==5)));
-
-		// Pattern<PairBB, ?> pattern = Pattern.<PairBB>begin("start")
-        //         .where(SimpleCondition.of(value -> (value.getobject1().getobj_class()==5 && value.getobject2().getobj_class()==5)));
-
 		Pattern<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>, ?> pattern_single = Pattern.<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>begin("a")
             .where(new SimpleCondition<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>() {
                 @Override
                 public boolean filter(Event<Integer, Integer, Integer, String, Float, Float, Float, Float> event) {
-                    return event.getobj_class()==2;
+                    return event.getobj_class().equals(2);
                 }
             })
             .followedBy("b")
@@ -127,13 +121,13 @@ public class VideoAnalysis {
 					float cenyn = (event.getymax()+event.getymin())/2;
 					float width = (a.getxmax()-a.getxmin());
 					float height = (a.getymax()-a.getymin());
-					if ((event.getframe_id()>a.getframe_id()) && (event.getobj_id()==a.getobj_id()) && ((cenxn-cenxo)>=width*1)) {
+					if ((event.getframe_id()>a.getframe_id()) && (event.getobj_id().equals(a.getobj_id())) && ((cenxn-cenxo)>=width*1)) {
 						// System.out.println("-------------------------------------");
 						// System.out.println("A car is moving in forward direction");
 						// System.out.println(event.toString());
 						// System.out.println("-------------------------------------");
 					}
-                    return  (event.getframe_id()>a.getframe_id()) && (event.getobj_id()==a.getobj_id()) && ((cenxn-cenxo)>=width*1) ;
+                    return  (event.getframe_id()>a.getframe_id()) && (event.getobj_id().equals(a.getobj_id())) && ((cenxn-cenxo)>=width*1) ;
                 }
             })
 			.followedBy("c")
@@ -147,59 +141,15 @@ public class VideoAnalysis {
 					float cenyn = (event.getymax()+event.getymin())/2;
 					float width = (a.getxmax()-a.getxmin());
 					float height = (a.getymax()-a.getymin());
-					if ((event.getframe_id()>a.getframe_id()) && (event.getobj_id()==a.getobj_id()) && ((cenxo-cenxn)>=width*1) ) {
+					if ((event.getframe_id()>a.getframe_id()) && (event.getobj_id().equals(a.getobj_id())) && ((cenxo-cenxn)>=width*1) ) {
 						// System.out.println("-------------------------------------");
 						// System.out.println("A car is moving in reverse direction");
 						// System.out.println(event.toString());
 						// System.out.println("-------------------------------------");
 					}
-                    return  (event.getframe_id()>a.getframe_id()) && (event.getobj_id()==a.getobj_id()) && ((cenxo-cenxn)>=width*1) ;
+                    return  (event.getframe_id()>a.getframe_id()) && (event.getobj_id().equals(a.getobj_id())) && ((cenxo-cenxn)>=width*1) ;
                 }
             });
-
-		// Pattern<PairBB, ?> pattern = Pattern.<PairBB>begin("a")
-        //     .where(new SimpleCondition<PairBB>() {
-        //         @Override
-        //         public boolean filter(PairBB event) {
-		// 			// System.out.println("this");
-		// 			// return true;
-		// 			Event<Integer, Integer, Integer, String, Float, Float, Float, Float> cp=new Event<>(1,1,1,"a",0.0f,0.0f,0.0f,0.0f);
-		// 			Event<Integer, Integer, Integer, String, Float, Float, Float, Float> per=new Event<>(1,1,1,"a",0.0f,0.0f,0.0f,0.0f);
-		// 			if ((event.getobject1().getobj_class()==1) && (event.getobject2().getobj_class()==0)) {
-		// 				// return true;
-		// 				cp=event.getobject1();
-		// 				per=event.getobject2();
-		// 			}
-		// 			else if ((event.getobject1().getobj_class()==0) && (event.getobject2().getobj_class()==1)) {
-		// 				// return true;
-		// 				cp=event.getobject2();
-		// 				per=event.getobject1();
-		// 			}
-		// 			else {
-		// 				return false;
-		// 			}
-		// 			// return (cp.getxmax()<per.getxmax()) && (cp.getxmin()>per.getxmin()) && (cp.getymax()<per.getymax()) && (cp.getymin()>per.getymin());
-		// 			float cenx=(cp.getxmin()+cp.getxmax())/2;
-		// 			float ceny=(cp.getymin()+cp.getymax())/2;
-		// 			if ((cp.getxmin()<=per.getxmin()) && (cp.getxmax()>=per.getxmax())) {
-		// 				System.out.println(per.getframe_id() + " Riding : "+per.getobj_id()+" "+cp.getobj_id());
-		// 			}
-		// 			else if ( Math.abs(cenx-per.getxmax())<=Math.abs(per.getxmax()-per.getxmin())){
-		// 				System.out.println(per.getframe_id() + " Not Riding : "+per.getobj_id()+" "+cp.getobj_id());
-		// 			}
-		// 			// return (cenx<per.getxmax()) && (cenx>per.getxmin()) && (ceny<per.getymax()) && (ceny>per.getymin());
-		// 			return false;
-        //         }
-        //     });
-
-		// Pattern<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>, ?> pattern_single = Pattern.<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>begin("e1",AfterMatchSkipStrategy.skipPastLastEvent())
-		// 	.where(new SimpleCondition<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>() {
-		// 		@Override
-		// 		public boolean filter(Event<Integer, Integer, Integer, String, Float, Float, Float, Float> event) {
-		// 			return event.getobj_class()==2;
-		// 		}
-		// 	})
-		// 	.times(150);
 		
         // DataStream<Map<String,List<PairBB>>> resultStream = CEP.pattern(eventStream, pattern).inProcessingTime()
         // .select(new PatternSelectFunction<PairBB, Map<String,List<PairBB>>>() {

@@ -114,7 +114,20 @@ vector<entry> generate_stream() {
 	vector<entry> events6 = obj6.generate_object_stream();
 	traffic.insert(traffic.end(),events5.begin(),events5.end());
 	traffic.insert(traffic.end(),events6.begin(),events6.end());
-
+	// cellphone 67 person 0
+	Entity obj7(0,6,"BLACK",160,200,{0,10,20,30},{150,10,170,30});
+	Entity obj8(0,7,"BLACK",150,250,{0,70,20,90},{180,70,200,90});
+	Entity obj9(0,8,"BLACK",150,250,{0,110,20,130},{180,110,200,130});
+	// with a cellphone
+	Entity obj10(67,9,"BLUE",150,250,{5,115,15,125},{185,115,195,125});
+	vector<entry> events7 = obj7.generate_object_stream();
+	vector<entry> events8 = obj8.generate_object_stream();
+	vector<entry> events9 = obj9.generate_object_stream();
+	vector<entry> events10 = obj10.generate_object_stream();
+	traffic.insert(traffic.end(),events7.begin(),events7.end());
+	traffic.insert(traffic.end(),events8.begin(),events8.end());
+	traffic.insert(traffic.end(),events9.begin(),events9.end());
+	traffic.insert(traffic.end(),events10.begin(),events10.end());
 	sort(traffic.begin(),traffic.end(),compare);
     return traffic;
 }

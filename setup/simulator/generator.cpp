@@ -84,19 +84,44 @@ class Entity {
 };
 
 
+bool compare(const entry &e1,const entry& e2){
+	return e1.frame_id<e2.frame_id;
+}
+
+
 vector<entry> generate_stream() {
-    Entity obj1(2,1,"RED",60,120,{0,200,150,300},{1770,200,1920,300});
-    vector<entry> ans;
-    ans=obj1.generate_object_stream();
-    Entity obj2(2,1,"RED",121,180,{1770,200,1920,300},{300,200,450,300});
-    vector<entry> ans2=obj2.generate_object_stream();
-    ans.insert(ans.end(),ans2.begin(),ans2.end());
-    return ans;
+	vector<entry> traffic;
+	// car
+	Entity obj1(2,1,"RED",60,120,{0,200,150,300},{1770,200,1920,300});
+	vector<entry> events1 = obj1.generate_object_stream();
+	traffic.insert(traffic.end(),events1.begin(),events1.end());
+	// car2 overtaking car1
+	Entity obj2(2,2,"BLUE",70,100,{0,400,150,500},{1770,400,1920,500});
+	vector<entry> events2 = obj2.generate_object_stream();
+	traffic.insert(traffic.end(),events2.begin(),events2.end());
+	// bicycle
+	Entity obj3(1,3,"BLACK",60,150,{0,100,40,120},{1880,100,1920,120});
+	vector<entry> events3 = obj3.generate_object_stream();
+	traffic.insert(traffic.end(),events3.begin(),events3.end());
+	// car3 going reverse
+	Entity obj4(2,4,"GREEN",70,100,{1770,600,1920,700},{0,600,150,700});
+	vector<entry> events4 = obj4.generate_object_stream();
+	traffic.insert(traffic.end(),events4.begin(),events4.end());
+	//car going forward and backward
+	Entity obj5(2,5,"RED",50,90,{0,550,40,570},{980,550,1020,570});
+	Entity obj6(2,5,"RED",91,110,{980,550,1020,570},{0,550,40,570});
+	vector<entry> events5 = obj5.generate_object_stream();
+	vector<entry> events6 = obj6.generate_object_stream();
+	traffic.insert(traffic.end(),events5.begin(),events5.end());
+	traffic.insert(traffic.end(),events6.begin(),events6.end());
+
+	sort(traffic.begin(),traffic.end(),compare);
+    return traffic;
 }
 
 int main() {
     vector<entry> video1=generate_stream();
-    ofstream out("logs1.txt");
+    ofstream out("../../database/logs1.txt");
     for ( int i = 0 ; i < video1.size() ; i++ ) {
         string var = video1[i].convert_to_string();
         out<<var<<"\n";

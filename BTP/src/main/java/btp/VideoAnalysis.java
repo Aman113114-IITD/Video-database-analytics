@@ -116,7 +116,7 @@ public class VideoAnalysis {
                     return event.getobj_class()==2;
                 }
             })
-            .followedByAny("b")
+            .followedBy("b")
             .where(new IterativeCondition<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>() {
                 @Override
                 public boolean filter(Event<Integer, Integer, Integer, String, Float, Float, Float, Float> event, Context<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>> context) throws Exception {
@@ -127,13 +127,16 @@ public class VideoAnalysis {
 					float cenyn = (event.getymax()+event.getymin())/2;
 					float width = (a.getxmax()-a.getxmin());
 					float height = (a.getymax()-a.getymin());
-					if ((event.getframe_id()>a.getframe_id()) && (event.getobj_id()==a.getobj_id()) && ((cenxn-cenxo)>=width*9)) {
-						System.out.println("A car is moving in forward direction");
+					if ((event.getframe_id()>a.getframe_id()) && (event.getobj_id()==a.getobj_id()) && ((cenxn-cenxo)>=width*1)) {
+						// System.out.println("-------------------------------------");
+						// System.out.println("A car is moving in forward direction");
+						// System.out.println(event.toString());
+						// System.out.println("-------------------------------------");
 					}
-                    return  (event.getframe_id()>a.getframe_id()) && (event.getobj_id()==a.getobj_id()) && ((cenxn-cenxo)>=width*9) ;
+                    return  (event.getframe_id()>a.getframe_id()) && (event.getobj_id()==a.getobj_id()) && ((cenxn-cenxo)>=width*1) ;
                 }
             })
-			.followedByAny("c")
+			.followedBy("c")
             .where(new IterativeCondition<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>>() {
                 @Override
                 public boolean filter(Event<Integer, Integer, Integer, String, Float, Float, Float, Float> event, Context<Event<Integer, Integer, Integer, String, Float, Float, Float, Float>> context) throws Exception {
@@ -144,10 +147,13 @@ public class VideoAnalysis {
 					float cenyn = (event.getymax()+event.getymin())/2;
 					float width = (a.getxmax()-a.getxmin());
 					float height = (a.getymax()-a.getymin());
-					if ((event.getframe_id()>a.getframe_id()) && (event.getobj_id()==a.getobj_id()) && ((cenxo-cenxn)>=width*9) ) {
-						System.out.println("A car is moving in reverse direction");
+					if ((event.getframe_id()>a.getframe_id()) && (event.getobj_id()==a.getobj_id()) && ((cenxo-cenxn)>=width*1) ) {
+						// System.out.println("-------------------------------------");
+						// System.out.println("A car is moving in reverse direction");
+						// System.out.println(event.toString());
+						// System.out.println("-------------------------------------");
 					}
-                    return  (event.getframe_id()>a.getframe_id()) && (event.getobj_id()==a.getobj_id()) && ((cenxo-cenxn)>=width*9) ;
+                    return  (event.getframe_id()>a.getframe_id()) && (event.getobj_id()==a.getobj_id()) && ((cenxo-cenxn)>=width*1) ;
                 }
             });
 
